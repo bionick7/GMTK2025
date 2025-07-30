@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://njneyce2ah4y"]
+
+[ext_resource type="Script" uid="uid://cgcihdwhrtvpe" path="res://Scenes/Vehicle/player_vehicle.gd" id="1_v0ixs"]
+[ext_resource type="Texture2D" uid="uid://cgdbsbyo5ax2b" path="res://icon.svg" id="2_i55oe"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_0ne8j"]
+size = Vector3(1, 1, 0.433)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0ne8j"]
+size = Vector3(1, 0.435547, 1)
+
+[node name="PlayerVehicle" type="RigidBody3D"]
+mass = 100.0
+gravity_scale = 0.0
+center_of_mass_mode = 1
+inertia = Vector3(200, 100, 100)
+linear_velocity = Vector3(10, 0, 0)
+script = ExtResource("1_v0ixs")
+stall_angle = 0.349066
+lift_coeff = 30.0
+roll_resp = 10.0
+roll_authority = 3.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 0, 0, 0)
+mesh = SubResource("PrismMesh_0ne8j")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.62926, 0.488944, 0)
+current = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_0ne8j")
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 0, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0296564, 0, -4.0016)
+pixel_size = 0.003
+texture = ExtResource("2_i55oe")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 21.0
+offset_top = -70.0
+offset_right = 280.0
+offset_bottom = -18.0
+grow_vertical = 0
+max_value = 12.0
+step = 0.01
+editable = false
+scrollable = false
