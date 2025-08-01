@@ -1,34 +1,40 @@
 [gd_scene load_steps=7 format=3 uid="uid://c257ubfcajoyj"]
 
-[ext_resource type="Material" uid="uid://bpboo7orurjyy" path="res://Art/Materials/Base.tres" id="1_dma81"]
 [ext_resource type="Script" uid="uid://bgcbbpbgoxt37" path="res://Scenes/NPCVehicle/npc_vehicle.gd" id="1_j4j8u"]
-[ext_resource type="Script" uid="uid://cpmdcm70sbtlf" path="res://Scenes/Levels/course_tracker.gd" id="2_jmb6c"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_eup1m"]
-size = Vector3(0.1, 0.1, 0.1)
+[ext_resource type="Material" uid="uid://83qhil7gbti3" path="res://Art/Materials/car.tres" id="4_srqon"]
+[ext_resource type="PackedScene" uid="uid://b3jouv2sdykew" path="res://Scenes/CcourseTracker.tscn" id="5_gmp7f"]
+[ext_resource type="ArrayMesh" uid="uid://b4ed1ukn38ghn" path="res://Art/Meshes/car.obj" id="5_pi6f5"]
+[ext_resource type="PackedScene" uid="uid://dn7e2eiapqn2i" path="res://Scenes/Splash.tscn" id="5_srqon"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_vq2rq"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_vq2rq"]
-radial_segments = 8
-rings = 4
+radius = 0.460207
 
 [node name="NpcVehicle" type="RigidBody3D"]
+collision_layer = 4
+mass = 100.0
+gravity_scale = 0.0
+center_of_mass_mode = 1
+inertia = Vector3(100, 100, 100)
+contact_monitor = true
+max_contacts_reported = 1
 script = ExtResource("1_j4j8u")
+normal_speed = 3.0
+acc_speed = 12.0
+stall_angle = 0.349066
+lift_coeff = 30.0
+side_coeff = 30.0
+roll_resp = 10.0
+roll_authority = 30.0
 
-[node name="CourseTracker" type="Area3D" parent="."]
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("2_jmb6c")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CourseTracker"]
-shape = SubResource("BoxShape3D_eup1m")
+[node name="CourseTracker" parent="." instance=ExtResource("5_gmp7f")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.210864, 0)
 shape = SubResource("SphereShape3D_vq2rq")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-material_override = ExtResource("1_dma81")
-mesh = SubResource("SphereMesh_vq2rq")
+[node name="Car" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+material_override = ExtResource("4_srqon")
+mesh = ExtResource("5_pi6f5")
 
-[connection signal="area_entered" from="CourseTracker" to="CourseTracker" method="_on_area_entered"]
+[node name="Node3D" parent="." instance=ExtResource("5_srqon")]

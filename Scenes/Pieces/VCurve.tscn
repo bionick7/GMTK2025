@@ -1,14 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://cbowwtbglbpln"]
+[gd_scene load_steps=6 format=3 uid="uid://cbowwtbglbpln"]
 
 [ext_resource type="Script" uid="uid://baq1sak31pvum" path="res://Scenes/Pieces/track_piece.gd" id="1_mog8q"]
 [ext_resource type="ArrayMesh" uid="uid://cqxekwt24pjxr" path="res://Art/Meshes/GMTK2025_VCurve.res" id="2_mog8q"]
+[ext_resource type="Texture2D" uid="uid://duc47m3x6yehh" path="res://Art/Textures/stage_texture.png" id="2_uxlxb"]
 [ext_resource type="PackedScene" uid="uid://d1t53uf14nu4n" path="res://Scenes/Pieces/Gate.tscn" id="4_uxlxb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m0r7q"]
+albedo_texture = ExtResource("2_uxlxb")
+texture_filter = 0
 
 [node name="VCurve" type="Node3D" groups=["TrackPiece"]]
 script = ExtResource("1_mog8q")
+path_curvature_weight = 15.098
 
 [node name="Gmtk2025VCurve" type="MeshInstance3D" parent="."]
-transform = Transform3D(0, -4.37114e-08, -1, -1, 0, 0, 0, 1, -4.37114e-08, 0, 0, 0)
+transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, 0, -30, 0)
+material_override = SubResource("StandardMaterial3D_m0r7q")
 mesh = ExtResource("2_mog8q")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
@@ -16,12 +23,13 @@ mesh = ExtResource("2_mog8q")
 [node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00295925, 0, -0.0398178)
 depth = 8.217
-polygon = PackedVector2Array(0.247322, -30.0807, 6.09968, -29.6279, 13.8495, -26.8167, 20.9031, -21.8687, 24.9081, -16.8837, 28.6221, -9.45142, 29.643, -4.10317, 30.0122, -0.563431, 30.7692, -0.520417, 28.7653, -13.9508, 21.6651, -22.8887, 13.2285, -29.237, 0.114637, -31.6066)
-
-[node name="VisualAnchor" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.6353, -21.0888, 0)
+polygon = PackedVector2Array(0.247322, -30.0807, 6.09968, -29.6279, 11.0566, -27.8769, 16.5485, -25.0336, 20.716, -21.5671, 24.9671, -16.1094, 27.8339, -9.45151, 29.8212, -0.0533428, 32.2805, -0.00694084, 28.7653, -13.9508, 21.6651, -22.8887, 13.2285, -29.237, 0.114637, -31.6066)
 
 [node name="InGate" parent="." instance=ExtResource("4_uxlxb")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, -30, 0)
-collision_layer = 2
-collision_mask = 0
+
+[node name="StartTf" type="Marker3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.086086, -29.99, 0.0935001)
+
+[node name="EndTf" type="Marker3D" parent="."]
+transform = Transform3D(-5.96046e-08, -1, 4.37114e-08, 8.88178e-16, 4.37114e-08, 1, -1, 5.96046e-08, 0, 29.745, 1.11468e-08, -1.11468e-08)

@@ -1,0 +1,12 @@
+# Blender 4.4.0 MTL File: 'GMTK2025.blend'
+# www.blender.org
+
+newmtl m_64bb1825-406a-7bf5-9c2e-91d9282f6600
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd /mnt/Data/Games/_Jams/GMTK2025/Art/Meshes/stage_texture.png

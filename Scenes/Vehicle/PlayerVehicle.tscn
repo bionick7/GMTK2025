@@ -1,16 +1,15 @@
-[gd_scene load_steps=12 format=3 uid="uid://njneyce2ah4y"]
+[gd_scene load_steps=15 format=3 uid="uid://njneyce2ah4y"]
 
-[ext_resource type="Script" uid="uid://cgcihdwhrtvpe" path="res://Scenes/Vehicle/player_vehicle.gd" id="1_v0ixs"]
-[ext_resource type="Script" uid="uid://cpmdcm70sbtlf" path="res://Scenes/Levels/course_tracker.gd" id="3_xae56"]
+[ext_resource type="Script" uid="uid://cgcihdwhrtvpe" path="res://Scenes/Vehicle/player_vehicle.gd" id="1_ln0bc"]
+[ext_resource type="PackedScene" uid="uid://b3jouv2sdykew" path="res://Scenes/CcourseTracker.tscn" id="2_bop5l"]
 [ext_resource type="Texture2D" uid="uid://b5q8aipcfu5qj" path="res://Art/UI/speedometer_emptyl.png" id="4_jmitc"]
 [ext_resource type="Texture2D" uid="uid://cr045el64js50" path="res://Art/UI/speedometer_full.png" id="5_1a0lk"]
 [ext_resource type="Texture2D" uid="uid://bmnu1y5rlm27o" path="res://Art/Sprites/loop_plate-Sheet.png" id="6_hweao"]
+[ext_resource type="ArrayMesh" uid="uid://bglf5chm2tqpy" path="res://Art/Meshes/plate.obj" id="7_fhqvl"]
 [ext_resource type="Script" uid="uid://drqefcoi83p51" path="res://Scripts/manual_billboard.gd" id="7_ln0bc"]
-[ext_resource type="ArrayMesh" uid="uid://bybjv3v5pm0ku" path="res://Art/Meshes/Plate/plate.obj" id="8_fhqvl"]
-[ext_resource type="Material" uid="uid://cab2ef0rlsc4h" path="res://Art/Meshes/Plate/plate_wings.tres" id="9_xg83q"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_xae56"]
-size = Vector3(0.1, 0.1, 0.1)
+[ext_resource type="Texture2D" uid="uid://bmmoim6rcvy1m" path="res://Art/Textures/plate_texture.png" id="7_xg83q"]
+[ext_resource type="PackedScene" uid="uid://dn7e2eiapqn2i" path="res://Scenes/Splash.tscn" id="9_xg83q"]
+[ext_resource type="AudioStream" uid="uid://dqjkfkmgdjx72" path="res://Audio/character_noises.ogg" id="10_bop5l"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_hweao"]
 radius = 0.333856
@@ -19,30 +18,41 @@ radius = 0.333856
 atlas = ExtResource("6_hweao")
 region = Rect2(160, 0, 176, 80)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bop5l"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("7_xg83q")
+texture_filter = 0
+
+[sub_resource type="GDScript" id="GDScript_bop5l"]
+script/source = "extends AudioStreamPlayer3D
+
+func _process(delta: float) -> void:
+	var speed: float    = get_parent().linear_velocity.length()
+	pitch_scale = pow(10, 0.1 * max(speed - 10, 0))
+"
+
 [node name="PlayerVehicle" type="RigidBody3D"]
+collision_layer = 4
 mass = 100.0
 gravity_scale = 0.0
 center_of_mass_mode = 1
-inertia = Vector3(200, 100, 100)
+inertia = Vector3(100, 100, 100)
 contact_monitor = true
 max_contacts_reported = 1
 linear_velocity = Vector3(10, 0, 0)
-script = ExtResource("1_v0ixs")
+script = ExtResource("1_ln0bc")
 normal_speed = 3.0
 acc_speed = 12.0
 stall_angle = 0.349066
 lift_coeff = 30.0
-side_coeff = 30.0
+side_coeff = 10.0
 roll_resp = 10.0
 roll_authority = 3.0
 
-[node name="CourseTracker" type="Area3D" parent="."]
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("3_xae56")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CourseTracker"]
-shape = SubResource("BoxShape3D_xae56")
+[node name="CourseTracker" parent="." instance=ExtResource("2_bop5l")]
+is_player = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.62926, 0.488944, 0)
@@ -92,9 +102,15 @@ script = ExtResource("7_ln0bc")
 target = NodePath("../..")
 
 [node name="Plate" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -0.336529, 0)
-mesh = ExtResource("8_fhqvl")
-surface_material_override/5 = ExtResource("9_xg83q")
-surface_material_override/6 = ExtResource("9_xg83q")
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -0.332336, 0)
+material_override = SubResource("StandardMaterial3D_bop5l")
+mesh = ExtResource("7_fhqvl")
 
-[connection signal="area_entered" from="CourseTracker" to="CourseTracker" method="_on_area_entered"]
+[node name="Splash" parent="." instance=ExtResource("9_xg83q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.392853, 0, 0)
+is_player = true
+
+[node name="SpeedPlayer" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("10_bop5l")
+autoplay = true
+script = SubResource("GDScript_bop5l")

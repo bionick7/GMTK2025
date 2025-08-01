@@ -1,36 +1,43 @@
-[gd_scene load_steps=5 format=3 uid="uid://d1t53uf14nu4n"]
+[gd_scene load_steps=7 format=3 uid="uid://d1t53uf14nu4n"]
 
-[ext_resource type="ArrayMesh" uid="uid://dyemgrum6fbal" path="res://Art/Meshes/GMTK2025_Gate.res" id="1_erdpi"]
+[ext_resource type="ArrayMesh" uid="uid://dpgo63lx8ni6" path="res://Art/Meshes/rings.obj" id="1_erdpi"]
+[ext_resource type="Texture2D" uid="uid://d0gdpw6iijb2c" path="res://Art/Textures/ring_texture.png" id="1_ktmdt"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1k2oj"]
-size = Vector3(7.55371, 4.38574, 1)
+size = Vector3(7.55371, 7.43457, 1.00195)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ktmdt"]
-size = Vector3(8.26855, 0.341553, 10.5042)
+size = Vector3(5.25098, 1.38739, 2.16992)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_erdpi"]
-size = Vector3(4.47021, 0.341553, 10.5042)
+size = Vector3(6.27014, 0.785156, 1.62915)
 
-[node name="Gate" type="Area3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_epil6"]
+albedo_texture = ExtResource("1_ktmdt")
+
+[node name="InGate" type="Area3D"]
+collision_layer = 2
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1901, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1901, 0.203733)
 shape = SubResource("BoxShape3D_1k2oj")
-
-[node name="Gmtk2025Gate" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
-mesh = ExtResource("1_erdpi")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0107422, 4.6297, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0107422, 6.28721, 0)
 shape = SubResource("BoxShape3D_ktmdt")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 4.00517, 2.26673, 0)
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 4.17814, 1.72358, 0.234493)
 shape = SubResource("BoxShape3D_erdpi")
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -4.01023, 2.26673, 0)
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -4.26913, 1.70039, 0.234493)
 shape = SubResource("BoxShape3D_erdpi")
+
+[node name="Rings" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.50579, 0, 0, 0, -1.09532e-07, -2.50579, 0, 2.50579, -1.09532e-07, 0.0506108, 2.35629, -0.00803566)
+material_override = SubResource("StandardMaterial3D_epil6")
+mesh = ExtResource("1_erdpi")

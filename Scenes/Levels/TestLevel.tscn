@@ -1,21 +1,20 @@
-[gd_scene load_steps=14 format=3 uid="uid://b8axavkyftmfn"]
+[gd_scene load_steps=16 format=3 uid="uid://b8axavkyftmfn"]
 
 [ext_resource type="PackedScene" uid="uid://njneyce2ah4y" path="res://Scenes/Vehicle/PlayerVehicle.tscn" id="1_ss4xl"]
+[ext_resource type="Shader" uid="uid://dele2f3gguknc" path="res://Art/Shaders/SkyMaterial.gdshader" id="2_1mv4x"]
 [ext_resource type="Script" uid="uid://c5kfbkgxh058f" path="res://Scripts/pixelate_gd.gd" id="2_iuug4"]
-[ext_resource type="PackedScene" uid="uid://bwpjq61ni7jxx" path="res://Scenes/Pieces/HCurve.tscn" id="2_ytf4i"]
+[ext_resource type="PackedScene" uid="uid://bwpjq61ni7jxx" path="res://Scenes/Pieces/HCurveR.tscn" id="2_ytf4i"]
+[ext_resource type="Texture2D" uid="uid://by788x4rpe55d" path="res://Art/background.png" id="3_1mv4x"]
 [ext_resource type="PackedScene" uid="uid://cbowwtbglbpln" path="res://Scenes/Pieces/VCurve.tscn" id="3_7e5cw"]
 [ext_resource type="Shader" uid="uid://d0cmg5a8jkul5" path="res://Art/Shaders/Postprocessing.gdshader" id="5_o0omn"]
 [ext_resource type="PackedScene" uid="uid://c257ubfcajoyj" path="res://Scenes/NPCVehicle/NPCVehicle.tscn" id="6_dqpvo"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7e5cw"]
-sky_top_color = Color(0.716588, 0.745195, 0.779564, 1)
-sky_horizon_color = Color(0.941295, 0.507298, 0.528751, 1)
-sky_curve = 0.424264
-ground_bottom_color = Color(0.190153, 0.160318, 0.12567, 1)
-ground_horizon_color = Color(0.0529011, 0.24363, 0.166874, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a7u0l"]
+shader = ExtResource("2_1mv4x")
+shader_parameter/horizon = ExtResource("3_1mv4x")
 
 [sub_resource type="Sky" id="Sky_ytf4i"]
-sky_material = SubResource("ProceduralSkyMaterial_7e5cw")
+sky_material = SubResource("ShaderMaterial_a7u0l")
 
 [sub_resource type="Environment" id="Environment_7e5cw"]
 background_mode = 2
@@ -67,6 +66,7 @@ angular_damp = 0.001
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.624589, -0.534471, 0.569412, 0.503864, 0.832858, 0.229061, -0.596665, 0.143838, 0.789494, 2.49829, 0.774871, 62.8101)
+light_color = Color(0.593768, 0.792895, 0.826954, 1)
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -78,11 +78,11 @@ next = NodePath("../HCurve2")
 
 [node name="HCurve2" parent="." node_paths=PackedStringArray("next") instance=ExtResource("2_ytf4i")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+beginning = true
 next = NodePath("../VCurve2")
 
 [node name="VCurve2" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_7e5cw")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -30, 30, 2.62268e-06)
-beginning = true
 next = NodePath("../HCurve3")
 
 [node name="HCurve3" parent="." node_paths=PackedStringArray("next") instance=ExtResource("2_ytf4i")]
@@ -105,4 +105,4 @@ ignore_occlusion_culling = true
 mesh = SubResource("QuadMesh_o0omn")
 
 [node name="NpcVehicle" parent="." instance=ExtResource("6_dqpvo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.1241, 2.16061, 39.3061)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -28.3715, 0, 20.4422)

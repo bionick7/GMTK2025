@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://83qhil7gbti3"]
+
+[ext_resource type="Texture2D" uid="uid://cvt7eonoh4g0a" path="res://Art/Textures/car_texture.png" id="1_lfpge"]
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("1_lfpge")

@@ -54,7 +54,7 @@ void fragment() {
 	// ---- UV Manipulation ----
 	vec2 uv = in_uv;
 	uv = floor(uv * screen_size) / screen_size;
-	
+
 	vec3 col = texture(screen_texture, uv).rgb;
 	col = posterize(col, postarization);
 	ALBEDO = col;

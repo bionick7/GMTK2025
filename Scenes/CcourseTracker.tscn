@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://b3jouv2sdykew"]
+
+[ext_resource type="Script" uid="uid://cpmdcm70sbtlf" path="res://Scripts/course_tracker.gd" id="1_oem5t"]
+[ext_resource type="AudioStream" uid="uid://ddksl1b74hmra" path="res://Audio/passing_through_gate.ogg" id="2_r4afo"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eup1m"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[node name="CourseTracker" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_oem5t")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_eup1m")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_r4afo")
+volume_db = -10.0
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

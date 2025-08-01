@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://c1v7b6sg3yt3v"]
+
+[ext_resource type="Script" uid="uid://baq1sak31pvum" path="res://Scenes/Pieces/track_piece.gd" id="1_i7n56"]
+[ext_resource type="Texture2D" uid="uid://duc47m3x6yehh" path="res://Art/Textures/stage_texture.png" id="2_qcrce"]
+[ext_resource type="ArrayMesh" uid="uid://duor4qj5yty5o" path="res://Art/Meshes/GMTK2025_HCurve.res" id="3_jh5uo"]
+[ext_resource type="PackedScene" uid="uid://d1t53uf14nu4n" path="res://Scenes/Pieces/Gate.tscn" id="4_mh7nf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ubmm"]
+albedo_texture = ExtResource("2_qcrce")
+texture_filter = 0
+
+[node name="HCurveL" type="Node3D" groups=["TrackPiece"]]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1_i7n56")
+path_curvature_weight = 21.585
+
+[node name="Gmtk2025HCurve" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.31134e-07, 1, 8.47033e-22, 4.37114e-08, 7.64274e-15, -1, -1, -1.31134e-07, -4.37114e-08, 0, 0, 30)
+material_override = SubResource("StandardMaterial3D_8ubmm")
+mesh = ExtResource("3_jh5uo")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="StaticBody3D"]
+transform = Transform3D(0.999864, 0.0164926, -1.44183e-09, -7.20915e-10, -4.37173e-08, -1, -0.0164926, 0.999864, -4.36995e-08, 0.0309124, -0.540675, 0.0454025)
+polygon = PackedVector2Array(0.0889454, 26.3255, 8.42765, 26.0402, 16.7435, 22.8976, 23.5123, 16.564, 26.5582, 6.12079, 26.7139, 0.692517, 33.5402, 0.652758, 32.5735, 9.94901, 29.5309, 19.8823, 21.2084, 28.5628, 11.812, 32.8582, 3.04209, 33.4847, 0.178434, 33.6636)
+
+[node name="StartTf" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.4823, 0.349955, 0.0935001)
+
+[node name="EndTf" type="Marker3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.0492706, 0.349955, 30.2515)
+
+[node name="InGate" parent="." instance=ExtResource("4_mh7nf")]
+transform = Transform3D(1.06581e-14, 0, 1, 0, 1, 0, -1, 0, 1.06581e-14, 0, 0, 30)

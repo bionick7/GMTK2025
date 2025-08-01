@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://bs0u0bq7ltmlf"]
+
+[ext_resource type="Script" uid="uid://baq1sak31pvum" path="res://Scenes/Pieces/track_piece.gd" id="1_r5qrx"]
+[ext_resource type="Texture2D" uid="uid://duc47m3x6yehh" path="res://Art/Textures/stage_texture.png" id="2_8hq6k"]
+[ext_resource type="ArrayMesh" uid="uid://q6xbpndqh5e2" path="res://Art/Meshes/GMTK2025_VCurveInverse.res" id="3_ogdkj"]
+[ext_resource type="PackedScene" uid="uid://d1t53uf14nu4n" path="res://Scenes/Pieces/Gate.tscn" id="4_x00l6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m0r7q"]
+albedo_texture = ExtResource("2_8hq6k")
+texture_filter = 0
+
+[node name="VCurveInverse" type="Node3D" groups=["TrackPiece"]]
+script = ExtResource("1_r5qrx")
+path_curvature_weight = 16.0
+
+[node name="Gmtk2025VCurve" type="MeshInstance3D" parent="."]
+transform = Transform3D(4.37114e-08, -1, -4.37114e-08, 8.74228e-08, -4.37114e-08, 1, -1, -4.37114e-08, 8.74228e-08, 0, 0.223171, 0)
+material_override = SubResource("StandardMaterial3D_m0r7q")
+mesh = ExtResource("3_ogdkj")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, -1, -8.74228e-08, 0, 8.74228e-08, -1, -0.00295925, -30, -0.0398152)
+depth = 8.217
+polygon = PackedVector2Array(0.247322, -30.0807, 5.78433, -29.4499, 11.0566, -27.8769, 16.5028, -24.9266, 20.716, -21.5671, 25.227, -16.1816, 28.1174, -10.5418, 29.961, -0.215714, 28.0786, -0.215714, 25.4737, -10.4668, 19.8259, -19.6838, 12.1056, -25.1376, 0.317763, -27.9793)
+
+[node name="InGate" parent="." instance=ExtResource("4_x00l6")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0)
+
+[node name="StartTf" type="Marker3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.086086, 0.0100002, 0.0935001)
+
+[node name="EndTf" type="Marker3D" parent="."]
+transform = Transform3D(5.96046e-08, 1, -1.31134e-07, -6.09898e-15, -1.31134e-07, -1, -1, 5.96046e-08, 0, 30.0711, -29.6953, -1.11468e-08)

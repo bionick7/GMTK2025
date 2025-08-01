@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qc287i614i4b"
-path.s3tc="res://.godot/imported/plate_wings.png-6c52a303a7e915e49ff9287d826b7307.s3tc.ctex"
+uid="uid://d0gdpw6iijb2c"
+path.s3tc="res://.godot/imported/ring_texture.png-33c12d283f4027c2e86d01ce1275e71a.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Art/Meshes/Plate/plate_wings.png"
-dest_files=["res://.godot/imported/plate_wings.png-6c52a303a7e915e49ff9287d826b7307.s3tc.ctex"]
+source_file="res://Art/Textures/ring_texture.png"
+dest_files=["res://.godot/imported/ring_texture.png-33c12d283f4027c2e86d01ce1275e71a.s3tc.ctex"]
 
 [params]
 
