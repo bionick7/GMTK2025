@@ -1,34 +1,108 @@
-[gd_scene load_steps=5 format=3 uid="uid://b8axavkyftmfn"]
+[gd_scene load_steps=14 format=3 uid="uid://b8axavkyftmfn"]
 
 [ext_resource type="PackedScene" uid="uid://njneyce2ah4y" path="res://Scenes/Vehicle/PlayerVehicle.tscn" id="1_ss4xl"]
+[ext_resource type="Script" uid="uid://c5kfbkgxh058f" path="res://Scripts/pixelate_gd.gd" id="2_iuug4"]
+[ext_resource type="PackedScene" uid="uid://bwpjq61ni7jxx" path="res://Scenes/Pieces/HCurve.tscn" id="2_ytf4i"]
+[ext_resource type="PackedScene" uid="uid://cbowwtbglbpln" path="res://Scenes/Pieces/VCurve.tscn" id="3_7e5cw"]
+[ext_resource type="Shader" uid="uid://d0cmg5a8jkul5" path="res://Art/Shaders/Postprocessing.gdshader" id="5_o0omn"]
+[ext_resource type="PackedScene" uid="uid://c257ubfcajoyj" path="res://Scenes/NPCVehicle/NPCVehicle.tscn" id="6_dqpvo"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ss4xl"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7e5cw"]
+sky_top_color = Color(0.716588, 0.745195, 0.779564, 1)
+sky_horizon_color = Color(0.941295, 0.507298, 0.528751, 1)
+sky_curve = 0.424264
+ground_bottom_color = Color(0.190153, 0.160318, 0.12567, 1)
+ground_horizon_color = Color(0.0529011, 0.24363, 0.166874, 1)
 
 [sub_resource type="Sky" id="Sky_ytf4i"]
-sky_material = SubResource("ProceduralSkyMaterial_ss4xl")
+sky_material = SubResource("ProceduralSkyMaterial_7e5cw")
 
 [sub_resource type="Environment" id="Environment_7e5cw"]
 background_mode = 2
 sky = SubResource("Sky_ytf4i")
+ambient_light_source = 3
+fog_mode = 1
+fog_light_color = Color(0.31435, 0.342729, 0.387339, 1)
+fog_density = 0.8105
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_o0omn"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = false
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("2_iuug4")
+color_resolution = Vector3i(10, 20, 10)
+shader_sourcecode = "uid://l86lp0b42ckh"
+pixelation_size = 3
+metadata/_custom_type_script = "uid://c5kfbkgxh058f"
+
+[sub_resource type="Compositor" id="Compositor_dqpvo"]
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_o0omn")])
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dqpvo"]
+render_priority = 0
+shader = ExtResource("5_o0omn")
+shader_parameter/postarization = Vector3i(10, 20, 255)
+shader_parameter/pixel_size = 4
+
+[sub_resource type="QuadMesh" id="QuadMesh_o0omn"]
+custom_aabb = AABB(-1e+06, -1e+06, -1e+06, 2e+06, 2e+06, 2e+06)
+size = Vector2(2, 2)
 
 [node name="TestLevel" type="Node3D"]
 
 [node name="CSGTorus3D" type="CSGTorus3D" parent="."]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 1.11469, -2.28812e-07, 0)
+visible = false
 inner_radius = 2.99515
 outer_radius = 5.00592
 sides = 24
 
 [node name="PlayerVehicle" parent="." instance=ExtResource("1_ss4xl")]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -25.5372, 0, 4.46507e-06)
+transform = Transform3D(-2.18557e-07, 0, 1, 0, 1, 0, -1, 0, -2.18557e-07, -26.7337, 2.30931, 41.6502)
 linear_damp = 0.001
 angular_damp = 0.001
-turn_responsiveness = 100.0
-thrust_responsiveness = 1.0
-target_speed = 10.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.624589, -0.534471, 0.569412, 0, 0.729124, 0.684382, -0.780954, -0.427457, 0.455403, 0, 0, 2.89039)
+transform = Transform3D(0.624589, -0.534471, 0.569412, 0.503864, 0.832858, 0.229061, -0.596665, 0.143838, 0.789494, 2.49829, 0.774871, 62.8101)
+shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_7e5cw")
+compositor = SubResource("Compositor_dqpvo")
+
+[node name="HCurve" parent="." node_paths=PackedStringArray("next") instance=ExtResource("2_ytf4i")]
+next = NodePath("../HCurve2")
+
+[node name="HCurve2" parent="." node_paths=PackedStringArray("next") instance=ExtResource("2_ytf4i")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+next = NodePath("../VCurve2")
+
+[node name="VCurve2" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_7e5cw")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -30, 30, 2.62268e-06)
+beginning = true
+next = NodePath("../HCurve3")
+
+[node name="HCurve3" parent="." node_paths=PackedStringArray("next") instance=ExtResource("2_ytf4i")]
+transform = Transform3D(-1, 0, -8.74228e-08, -8.74228e-08, -4.37114e-08, 1, -3.82137e-15, 1, 4.37114e-08, 0, 30, -30)
+next = NodePath("../HCurve4")
+
+[node name="HCurve4" parent="." node_paths=PackedStringArray("next") instance=ExtResource("2_ytf4i")]
+transform = Transform3D(-4.37114e-08, 0, 1, 1, -4.37114e-08, 4.37114e-08, 4.37114e-08, 1, 1.91069e-15, 0, 30, -30)
+next = NodePath("../VCurve")
+
+[node name="VCurve" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_7e5cw")]
+transform = Transform3D(4.37114e-08, 8.74228e-08, -1, -1, 4.37114e-08, -4.37114e-08, 4.37114e-08, 1, 8.74228e-08, 30, 30, 0)
+next = NodePath("../HCurve")
+
+[node name="Postprocessing" type="MeshInstance3D" parent="."]
+sorting_use_aabb_center = false
+material_override = SubResource("ShaderMaterial_dqpvo")
+cast_shadow = 0
+ignore_occlusion_culling = true
+mesh = SubResource("QuadMesh_o0omn")
+
+[node name="NpcVehicle" parent="." instance=ExtResource("6_dqpvo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.1241, 2.16061, 39.3061)

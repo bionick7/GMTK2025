@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=3 uid="uid://c257ubfcajoyj"]
+
+[ext_resource type="Material" uid="uid://bpboo7orurjyy" path="res://Art/Materials/Base.tres" id="1_dma81"]
+[ext_resource type="Script" uid="uid://bgcbbpbgoxt37" path="res://Scenes/NPCVehicle/npc_vehicle.gd" id="1_j4j8u"]
+[ext_resource type="Script" uid="uid://cpmdcm70sbtlf" path="res://Scenes/Levels/course_tracker.gd" id="2_jmb6c"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eup1m"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_vq2rq"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_vq2rq"]
+radial_segments = 8
+rings = 4
+
+[node name="NpcVehicle" type="RigidBody3D"]
+script = ExtResource("1_j4j8u")
+
+[node name="CourseTracker" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("2_jmb6c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CourseTracker"]
+shape = SubResource("BoxShape3D_eup1m")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_vq2rq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = ExtResource("1_dma81")
+mesh = SubResource("SphereMesh_vq2rq")
+
+[connection signal="area_entered" from="CourseTracker" to="CourseTracker" method="_on_area_entered"]
