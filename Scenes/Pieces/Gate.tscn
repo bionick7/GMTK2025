@@ -38,6 +38,6 @@ transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -4.269
 shape = SubResource("BoxShape3D_erdpi")
 
 [node name="Rings" type="MeshInstance3D" parent="."]
-transform = Transform3D(2.50579, 0, 0, 0, -1.09532e-07, -2.50579, 0, 2.50579, -1.09532e-07, 0.0506108, 2.35629, -0.00803566)
+transform = Transform3D(2.50579, 0, 0, 0, -1.09532e-07, -2.50579, 0, 2.50579, -1.09532e-07, 0, 2.356, 0)
 material_override = SubResource("StandardMaterial3D_epil6")
 mesh = ExtResource("1_erdpi")

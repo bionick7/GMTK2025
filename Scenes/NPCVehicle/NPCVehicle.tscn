@@ -1,15 +1,15 @@
 [gd_scene load_steps=7 format=3 uid="uid://c257ubfcajoyj"]
 
-[ext_resource type="Script" uid="uid://bgcbbpbgoxt37" path="res://Scenes/NPCVehicle/npc_vehicle.gd" id="1_j4j8u"]
+[ext_resource type="Script" uid="uid://b1rjut2p31r3x" path="res://Scripts/abstract_vehicle.gd" id="1_srqon"]
 [ext_resource type="Material" uid="uid://83qhil7gbti3" path="res://Art/Materials/car.tres" id="4_srqon"]
-[ext_resource type="PackedScene" uid="uid://b3jouv2sdykew" path="res://Scenes/CcourseTracker.tscn" id="5_gmp7f"]
+[ext_resource type="PackedScene" uid="uid://b3jouv2sdykew" path="res://Scenes/CourseTracker.tscn" id="5_gmp7f"]
 [ext_resource type="ArrayMesh" uid="uid://b4ed1ukn38ghn" path="res://Art/Meshes/car.obj" id="5_pi6f5"]
 [ext_resource type="PackedScene" uid="uid://dn7e2eiapqn2i" path="res://Scenes/Splash.tscn" id="5_srqon"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_vq2rq"]
 radius = 0.460207
 
-[node name="NpcVehicle" type="RigidBody3D"]
+[node name="NpcVehicle" type="RigidBody3D" groups=["Racer"]]
 collision_layer = 4
 mass = 100.0
 gravity_scale = 0.0
@@ -17,14 +17,14 @@ center_of_mass_mode = 1
 inertia = Vector3(100, 100, 100)
 contact_monitor = true
 max_contacts_reported = 1
-script = ExtResource("1_j4j8u")
+script = ExtResource("1_srqon")
 normal_speed = 3.0
-acc_speed = 12.0
+acc_speed = 10.0
 stall_angle = 0.349066
 lift_coeff = 30.0
-side_coeff = 30.0
+side_coeff = 10.0
 roll_resp = 10.0
-roll_authority = 30.0
+roll_authority = 3.0
 
 [node name="CourseTracker" parent="." instance=ExtResource("5_gmp7f")]
 
@@ -37,4 +37,6 @@ transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 material_override = ExtResource("4_srqon")
 mesh = ExtResource("5_pi6f5")
 
-[node name="Node3D" parent="." instance=ExtResource("5_srqon")]
+[node name="Splash" parent="." instance=ExtResource("5_srqon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.392853, 0, 0)
+is_player = true

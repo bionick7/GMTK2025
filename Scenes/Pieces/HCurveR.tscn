@@ -7,6 +7,7 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ubmm"]
 albedo_texture = ExtResource("2_g7ibj")
+roughness = 0.33
 texture_filter = 0
 
 [node name="HCurveR" type="Node3D" groups=["TrackPiece"]]
@@ -14,7 +15,7 @@ script = ExtResource("1_slbc3")
 path_curvature_weight = 21.585
 
 [node name="Gmtk2025HCurve" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1.31134e-07, 1, 8.47033e-22, 4.37114e-08, 7.64274e-15, -1, -1, -1.31134e-07, -4.37114e-08, 0, 0, 30)
+transform = Transform3D(-1.31134e-07, 1, 8.47033e-22, 4.37114e-08, 7.64274e-15, -1, -1, -1.31134e-07, -4.37114e-08, 1.63419e-22, -0.192931, 30)
 material_override = SubResource("StandardMaterial3D_8ubmm")
 mesh = ExtResource("1_d6s4k")
 
@@ -25,10 +26,10 @@ transform = Transform3D(0.999864, 0.0164926, -1.44183e-09, -7.20915e-10, -4.3717
 polygon = PackedVector2Array(0.0889454, 26.3255, 8.42765, 26.0402, 16.7435, 22.8976, 23.5123, 16.564, 26.5582, 6.12079, 26.7139, 0.692517, 33.5402, 0.652758, 32.5735, 9.94901, 29.5309, 19.8823, 21.2084, 28.5628, 11.812, 32.8582, 3.04209, 33.4847, 0.178434, 33.6636)
 
 [node name="StartTf" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.4823, 0.06059, 0.0935001)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0)
 
 [node name="EndTf" type="Marker3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.0492706, 0.06059, 30.2515)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 30)
 
 [node name="InGate" parent="." instance=ExtResource("3_slbc3")]
 transform = Transform3D(1, 0, -4.37114e-08, 0, 1, 0, 4.37114e-08, 0, 1, 30, 0, 0)

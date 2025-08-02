@@ -73,4 +73,8 @@ func get_gate() -> Node3D:
 	return _gate
 
 func get_entry() -> Vector3:
-	return _gate.global_position - _gate.global_basis * Vector3(0, 0, 5)
+	return _gate.global_position - _gate.global_basis.z * 5
+
+func get_spawn_position(index: int, of: int) -> Vector3:
+	var offset := (index / float(of - 1)) - 0.5
+	return get_entry() + _gate.global_basis.x * offset

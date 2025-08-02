@@ -47,7 +47,7 @@ script = ExtResource("1_y83ar")
 
 [node name="Splash" type="Sprite3D" parent="."]
 transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -0.15761, 0.33582, 2.0668e-08)
-pixel_size = 0.002
+pixel_size = 0.003
 texture = ExtResource("1_l4lnp")
 hframes = 6
 
@@ -61,3 +61,5 @@ autoplay = "splashing"
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("3_q2006")
 volume_db = -12.308
+bus = &"SFX"
+playback_type = 2

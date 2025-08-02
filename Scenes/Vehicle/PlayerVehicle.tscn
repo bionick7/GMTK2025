@@ -1,7 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://njneyce2ah4y"]
+[gd_scene load_steps=16 format=3 uid="uid://njneyce2ah4y"]
 
 [ext_resource type="Script" uid="uid://cgcihdwhrtvpe" path="res://Scenes/Vehicle/player_vehicle.gd" id="1_ln0bc"]
-[ext_resource type="PackedScene" uid="uid://b3jouv2sdykew" path="res://Scenes/CcourseTracker.tscn" id="2_bop5l"]
+[ext_resource type="PackedScene" uid="uid://b3jouv2sdykew" path="res://Scenes/CourseTracker.tscn" id="2_bop5l"]
 [ext_resource type="Texture2D" uid="uid://b5q8aipcfu5qj" path="res://Art/UI/speedometer_emptyl.png" id="4_jmitc"]
 [ext_resource type="Texture2D" uid="uid://cr045el64js50" path="res://Art/UI/speedometer_full.png" id="5_1a0lk"]
 [ext_resource type="Texture2D" uid="uid://bmnu1y5rlm27o" path="res://Art/Sprites/loop_plate-Sheet.png" id="6_hweao"]
@@ -18,6 +18,9 @@ radius = 0.333856
 atlas = ExtResource("6_hweao")
 region = Rect2(160, 0, 176, 80)
 
+[sub_resource type="LabelSettings" id="LabelSettings_bop5l"]
+font_size = 48
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bop5l"]
 transparency = 2
 alpha_scissor_threshold = 0.5
@@ -33,7 +36,7 @@ func _process(delta: float) -> void:
 	pitch_scale = pow(10, 0.1 * max(speed - 10, 0))
 "
 
-[node name="PlayerVehicle" type="RigidBody3D"]
+[node name="PlayerVehicle" type="RigidBody3D" groups=["Racer"]]
 collision_layer = 4
 mass = 100.0
 gravity_scale = 0.0
@@ -43,6 +46,7 @@ contact_monitor = true
 max_contacts_reported = 1
 linear_velocity = Vector3(10, 0, 0)
 script = ExtResource("1_ln0bc")
+lookahead_value = 8.0
 normal_speed = 3.0
 acc_speed = 12.0
 stall_angle = 0.349066
@@ -101,6 +105,22 @@ texture = SubResource("AtlasTexture_hweao")
 script = ExtResource("7_ln0bc")
 target = NodePath("../..")
 
+[node name="Place" type="Label" parent="UI"]
+offset_left = 52.0
+offset_top = 34.0
+offset_right = 239.0
+offset_bottom = 121.0
+text = "1/3"
+label_settings = SubResource("LabelSettings_bop5l")
+
+[node name="Rounds" type="Label" parent="UI"]
+offset_left = 239.0
+offset_top = 34.0
+offset_right = 426.0
+offset_bottom = 121.0
+text = "1"
+label_settings = SubResource("LabelSettings_bop5l")
+
 [node name="Plate" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -0.332336, 0)
 material_override = SubResource("StandardMaterial3D_bop5l")
@@ -113,4 +133,6 @@ is_player = true
 [node name="SpeedPlayer" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("10_bop5l")
 autoplay = true
+bus = &"SFX"
+playback_type = 1
 script = SubResource("GDScript_bop5l")

@@ -1,0 +1,75 @@
+[gd_scene load_steps=3 format=3 uid="uid://b04pmn6c73vhu"]
+
+[ext_resource type="Script" uid="uid://diqg7ari6squl" path="res://Scenes/persistent_ui.gd" id="1_70enn"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_njoh7"]
+font_size = 48
+
+[node name="PersistentUi" type="CanvasLayer"]
+script = ExtResource("1_70enn")
+
+[node name="EndRaceScreen" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 44.0
+offset_top = 138.0
+offset_right = 918.0
+offset_bottom = 570.0
+
+[node name="Ranking" type="VBoxContainer" parent="EndRaceScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -68.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 7
+
+[node name="Place1" type="PanelContainer" parent="EndRaceScreen/Ranking"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EndRaceScreen/Ranking/Place1"]
+layout_mode = 2
+text = "1 : Kuddelmuddel"
+label_settings = SubResource("LabelSettings_njoh7")
+
+[node name="Place2" type="PanelContainer" parent="EndRaceScreen/Ranking"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EndRaceScreen/Ranking/Place2"]
+layout_mode = 2
+text = "2: Rumpelstielzien"
+label_settings = SubResource("LabelSettings_njoh7")
+
+[node name="Place3" type="PanelContainer" parent="EndRaceScreen/Ranking"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EndRaceScreen/Ranking/Place3"]
+layout_mode = 2
+text = "3: Fagglewuggle"
+label_settings = SubResource("LabelSettings_njoh7")
+
+[node name="PlayerPlace" type="PanelContainer" parent="EndRaceScreen/Ranking"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EndRaceScreen/Ranking/PlayerPlace"]
+layout_mode = 2
+text = "756: You"
+label_settings = SubResource("LabelSettings_njoh7")
+
+[node name="RetryRace" type="Button" parent="EndRaceScreen"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = -80.0
+offset_right = 209.0
+offset_bottom = -5.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 48
+text = "RETRY"
+
+[connection signal="pressed" from="EndRaceScreen/RetryRace" to="." method="_on_retry_race_pressed"]

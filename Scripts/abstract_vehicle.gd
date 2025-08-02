@@ -9,6 +9,12 @@ enum ControlScheme {
 var control_scheme: ControlScheme = ControlScheme.PitchYaw
 var invert_pitch: bool = false
 
+const DEBUG_DRAWING := true
+
+@export var lookahead_value: float = 6.0
+@export var target_altitude: float = 2.0
+
+@export_group("Dynamics")
 @export var turn_responsiveness := 100.0
 @export var thrust_responsiveness := 1.0
 @export var normal_speed := 10.0
@@ -29,19 +35,34 @@ var stall_angle := 1.0
 var target_speed := 10.0
 var local_vel: Vector3
 var _schedule_reset := false
+var _current_track_segment: TrackPiece
+var _track_progress: float
+var _track_orientation: Basis
 
 var _ground_ray_result := {}
 
 var _is_accelerating := false
+var ground_effect := 0.0
+
+var calc_pitch := 0.0
+var calc_yaw := 0.0
 
 func _ready() -> void:
+	if not is_instance_valid(tracker):
+		push_error("tracker must be set for each vehicle")
 	linear_velocity = global_basis * Vector3(20, 0, 0)
+	
+	freeze = true
+	get_tree().create_timer(3).timeout.connect(start_race)
+
+func start_race():
+	freeze = false
 
 func _get_pitch() -> float:
-	return 0
+	return calc_pitch
 
 func _get_roll() -> float:
-	return 0
+	return calc_yaw
 	
 func reset() -> void:
 	_schedule_reset = true
@@ -52,16 +73,63 @@ func _get_ground_proximity() -> float:
 	else:
 		return _ground_ray_result["position"].distance_to(global_position)
 
+func _calc_ideal_inputs() -> void:
+	_is_accelerating = true
+	if not is_instance_valid(_current_track_segment):
+		calc_pitch = 0
+		calc_yaw = 0
+		return
+		
+	var track_position: Vector3 = _current_track_segment.sample_track_guide(_track_progress)
+	var track_position_plus: Vector3 = _current_track_segment.sample_track_guide(_track_progress + 1e-3)
+	var track_direction: Vector3 = (track_position_plus - track_position).normalized()
+	var target_pt = track_position + track_direction * lookahead_value + _track_orientation.y * target_altitude
+	var goal_body_fixed = global_transform.inverse() * target_pt
+	var goal_direction := goal_body_fixed.normalized()
+
+	# For now only pitch/yaw
+	var target_p_angle := -asin(goal_direction.y)
+	if goal_direction.x < 0: target_p_angle = PI - target_p_angle
+	if target_p_angle > PI: target_p_angle -= TAU
+	var target_y_angle := atan2(goal_direction.z, goal_direction.x)
+	
+	calc_pitch = -target_p_angle
+	calc_yaw = target_y_angle
+		
+	if DEBUG_DRAWING:
+		DebugDraw.draw_line_global(
+			global_position, 
+			target_pt,
+			Color.RED
+		)
+		
+		DebugDraw.draw_line_global(
+			track_position, 
+			target_pt,
+			Color.GREEN
+		)
+		
 func _process(delta: float) -> void:
+	_current_track_segment = tracker.current_track_piece
+	_track_progress = _current_track_segment.get_track_progress(global_position)
+	_track_orientation = _current_track_segment.get_track_orientation(_track_progress)
+	
+	
 	local_vel = global_basis.inverse() * linear_velocity
-	var ground_effect := 0.0
+	
 	if _is_accelerating:
 		ground_effect = clampf(1.0 - 0.5 * _get_ground_proximity(), 0, 1)
 		target_speed = lerp(acc_speed, acc_speed + 10, ground_effect)
 	else:
+		ground_effect = 0.0
 		target_speed = normal_speed
+		
+	if is_instance_valid(splash) and not _ground_ray_result.is_empty():
+		var _track_position = _current_track_segment.sample_track_guide(_track_progress)
+		splash.global_position = _ground_ray_result["position"]
+		#splash.global_basis = _track_orientation
 	if is_instance_valid(splash):
-		splash.set_strength(ground_effect)
+		splash.set_strength(ground_effect * 1.5)
 		
 	# Down raycast
 	
@@ -71,6 +139,8 @@ func _process(delta: float) -> void:
 	)
 	query.collide_with_bodies = true
 	_ground_ray_result = space_state.intersect_ray(query)
+	
+	_calc_ideal_inputs()
 	
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
@@ -89,7 +159,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	# virtual dynamic pressure * surface area
 	var qS = turn_responsiveness * clampf(local_vel.length(), 0.5, 1)
 	
-	var Cl = lift_coeff * aoa
+	var Cl = lift_coeff * aoa + ground_effect * 5.0
 	var C_thrust = (target_speed - local_vel.length()) * thrust_responsiveness
 	var Cx = -side_coeff * sideslip
 	var aero_force = Vector3(C_thrust, Cl, Cx) * qS
@@ -107,9 +177,8 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	elif control_scheme == ControlScheme.PitchYaw:
 		# Roll correction
 		var C_roll = -local_angvel.x
-		if not _ground_ray_result.is_empty():
-			var ground_normal_body_fixed: Vector3 = global_basis.inverse() * _ground_ray_result["normal"]
-			C_roll += ground_normal_body_fixed.z * 10
+		var ground_normal_body_fixed: Vector3 = global_basis.inverse() * _track_orientation.y
+		C_roll += ground_normal_body_fixed.z * 10
 		
 		var C_yaw = -sideslip * roll_authority + (-roll * roll_authority - local_angvel.y) * roll_resp
 		aero_torque = Vector3(C_roll, C_yaw, Cm) * qS
