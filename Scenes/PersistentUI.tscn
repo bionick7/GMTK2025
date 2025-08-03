@@ -1,47 +1,154 @@
-[gd_scene load_steps=9 format=3 uid="uid://b04pmn6c73vhu"]
+[gd_scene load_steps=31 format=3 uid="uid://b04pmn6c73vhu"]
 
 [ext_resource type="Script" uid="uid://diqg7ari6squl" path="res://Scenes/persistent_ui.gd" id="1_70enn"]
 [ext_resource type="FontFile" uid="uid://byas3rqp011jx" path="res://Art/font.png" id="2_ewlsi"]
+[ext_resource type="Texture2D" uid="uid://vutc324yrfb5" path="res://Art/Sprites/first.png" id="3_ji5j1"]
+[ext_resource type="Texture2D" uid="uid://dcb6bjxdrjp7h" path="res://Art/Sprites/retry_button_unclicked.png" id="3_sn8gp"]
 [ext_resource type="AudioStream" uid="uid://dpgy2di1g2445" path="res://Audio/clicking_on_option.ogg" id="3_wx1tp"]
+[ext_resource type="Texture2D" uid="uid://bxq2chywwbaol" path="res://Art/Sprites/retry_button_clicked.png" id="4_ebaef"]
+[ext_resource type="Texture2D" uid="uid://crloqirnxtgcr" path="res://Art/Sprites/second.png" id="5_0q85c"]
+[ext_resource type="Texture2D" uid="uid://ddryykbxr3g8f" path="res://Art/Sprites/third.png" id="6_o5rp3"]
+[ext_resource type="Texture2D" uid="uid://c0hdvrbtss20l" path="res://Art/Sprites/result_screen.png" id="6_qj5p4"]
+[ext_resource type="Texture2D" uid="uid://c1ic6aj10wnmy" path="res://Art/Sprites/next_button_unclicked.png" id="9_hdxq0"]
+[ext_resource type="Texture2D" uid="uid://douoksnfu08wa" path="res://Art/Sprites/next_button_clicked.png" id="10_0gktm"]
+[ext_resource type="Texture2D" uid="uid://bqp48tl6w8c8i" path="res://Art/Sprites/pause_animation.png" id="12_0q85c"]
+[ext_resource type="Texture2D" uid="uid://by1epnud0yrek" path="res://Art/Sprites/slider_knobe_clicked.png" id="13_0gktm"]
+[ext_resource type="Texture2D" uid="uid://dc23ds6hev6r6" path="res://Art/Sprites/slider_knobe_unclicked.png" id="14_ketgb"]
+[ext_resource type="Texture2D" uid="uid://j3qvy7u11ciy" path="res://Art/Sprites/slider_empty.png" id="15_eipkr"]
+[ext_resource type="AudioStream" uid="uid://0anes6b1x14y" path="res://Audio/race_end.ogg" id="16_ketgb"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ewlsi"]
+[sub_resource type="Shader" id="Shader_0gktm"]
+code = "shader_type canvas_item;
+
+void vertex() {
+	// Called for every vertex the material is visible on.
+}
+
+void fragment() {
+	vec2 uv = round(FRAGCOORD.xy / 2.0);
+	int pixel_index = int(uv.x + uv.y);
+	if (pixel_index % 2 == 0) {
+		discard;
+	}
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ketgb"]
+shader = SubResource("Shader_0gktm")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ketgb"]
+bg_color = Color(0.118581, 0.118581, 0.118581, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_njoh7"]
 font = ExtResource("2_ewlsi")
 font_size = 48
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wx1tp"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2xouq"]
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q6nx7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_d7xf0"]
+font = ExtResource("2_ewlsi")
+font_size = 20
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0gktm"]
+content_margin_top = 15.0
+content_margin_bottom = 15.0
+texture = ExtResource("15_eipkr")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ketgb"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_eipkr"]
+content_margin_top = 15.0
+content_margin_bottom = 15.0
+texture = ExtResource("15_eipkr")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0gktm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0gktm"]
+bg_color = Color(0.949187, 0.800183, 1, 1)
+
+[sub_resource type="Animation" id="Animation_eipkr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_ketgb"]
+resource_name = "sleepin"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d7xf0"]
+_data = {
+&"RESET": SubResource("Animation_eipkr"),
+&"sleepin": SubResource("Animation_ketgb")
+}
 
 [node name="PersistentUi" type="CanvasLayer"]
 layer = 5
 script = ExtResource("1_70enn")
 
-[node name="EndRaceScreen" type="Control" parent="."]
+[node name="EndRaceScreen" type="Panel" parent="."]
 visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_left = 44.0
-offset_top = 138.0
-offset_right = 918.0
-offset_bottom = 570.0
-
-[node name="Ranking" type="VBoxContainer" parent="EndRaceScreen"]
-layout_mode = 1
+material = SubResource("ShaderMaterial_ketgb")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = -68.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ketgb")
+
+[node name="TextureRect" type="TextureRect" parent="EndRaceScreen"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -221.5
+offset_right = 221.5
+offset_bottom = 116.0
+grow_horizontal = 2
+texture = ExtResource("6_qj5p4")
+
+[node name="Ranking" type="VBoxContainer" parent="EndRaceScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -399.5
+offset_top = -151.0
+offset_right = 399.5
+offset_bottom = 151.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 7
 
-[node name="Place1" type="PanelContainer" parent="EndRaceScreen/Ranking"]
+[node name="Place1" type="HBoxContainer" parent="EndRaceScreen/Ranking"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_ewlsi")
+
+[node name="TextureRect" type="TextureRect" parent="EndRaceScreen/Ranking/Place1"]
+layout_mode = 2
+texture = ExtResource("3_ji5j1")
 
 [node name="Label" type="Label" parent="EndRaceScreen/Ranking/Place1"]
 layout_mode = 2
@@ -49,9 +156,12 @@ text = "AAA"
 label_settings = SubResource("LabelSettings_njoh7")
 uppercase = true
 
-[node name="Place2" type="PanelContainer" parent="EndRaceScreen/Ranking"]
+[node name="Place2" type="HBoxContainer" parent="EndRaceScreen/Ranking"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_wx1tp")
+
+[node name="TextureRect" type="TextureRect" parent="EndRaceScreen/Ranking/Place2"]
+layout_mode = 2
+texture = ExtResource("5_0q85c")
 
 [node name="Label" type="Label" parent="EndRaceScreen/Ranking/Place2"]
 layout_mode = 2
@@ -59,9 +169,12 @@ text = "AAA"
 label_settings = SubResource("LabelSettings_njoh7")
 uppercase = true
 
-[node name="Place3" type="PanelContainer" parent="EndRaceScreen/Ranking"]
+[node name="Place3" type="HBoxContainer" parent="EndRaceScreen/Ranking"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_2xouq")
+
+[node name="TextureRect" type="TextureRect" parent="EndRaceScreen/Ranking/Place3"]
+layout_mode = 2
+texture = ExtResource("6_o5rp3")
 
 [node name="Label" type="Label" parent="EndRaceScreen/Ranking/Place3"]
 layout_mode = 2
@@ -79,87 +192,147 @@ text = "756: You"
 label_settings = SubResource("LabelSettings_njoh7")
 uppercase = true
 
-[node name="RetryRace" type="Button" parent="EndRaceScreen"]
+[node name="RetryRace" type="TextureButton" parent="EndRaceScreen"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 9.0
-offset_top = -80.0
-offset_right = 209.0
-offset_bottom = -5.0
+offset_left = 50.0
+offset_top = -101.0
+offset_right = 185.0
+offset_bottom = -47.0
 grow_vertical = 0
-theme_override_font_sizes/font_size = 48
-text = "RETRY"
+texture_normal = ExtResource("3_sn8gp")
+texture_pressed = ExtResource("4_ebaef")
+texture_hover = ExtResource("4_ebaef")
 
-[node name="NextRace" type="Button" parent="EndRaceScreen"]
+[node name="NextRace" type="TextureButton" parent="EndRaceScreen"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -251.0
-offset_top = -75.0
+offset_left = -206.0
+offset_top = -133.0
+offset_right = -60.0
+offset_bottom = -55.0
 grow_horizontal = 0
 grow_vertical = 0
-theme_override_font_sizes/font_size = 48
-text = "PROGRESS"
+texture_normal = ExtResource("9_hdxq0")
+texture_pressed = ExtResource("10_0gktm")
+texture_hover = ExtResource("10_0gktm")
 
-[node name="PauseMenu" type="VBoxContainer" parent="."]
-visible = false
+[node name="Option" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_wx1tp")
+bus = &"SFX"
+
+[node name="PauseMenu" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_ketgb")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ketgb")
+
+[node name="Deco" type="Control" parent="PauseMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -156.0
+offset_right = 157.0
+offset_bottom = 60.0
+grow_horizontal = 2
+
+[node name="AnimatedSprite2D" type="Sprite2D" parent="PauseMenu/Deco"]
+position = Vector2(148, 110)
+texture = ExtResource("12_0q85c")
+hframes = 2
+
+[node name="H" type="VBoxContainer" parent="PauseMenu"]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -156.5
-offset_top = -45.0
-offset_right = 156.5
-offset_bottom = 45.0
+offset_left = -444.0
+offset_top = -121.0
+offset_right = -116.0
+offset_bottom = 121.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MusicVolumeLabel" type="Label" parent="PauseMenu"]
+[node name="MusicVolumeLabel" type="Label" parent="PauseMenu/H"]
 layout_mode = 2
 text = "Music Volume"
+label_settings = SubResource("LabelSettings_d7xf0")
 horizontal_alignment = 1
+uppercase = true
 
-[node name="MusicVolume" type="HSlider" parent="PauseMenu"]
-custom_minimum_size = Vector2(200, 0)
+[node name="MusicVolume" type="HSlider" parent="PauseMenu/H"]
 layout_mode = 2
+theme_override_icons/grabber = ExtResource("14_ketgb")
+theme_override_icons/grabber_highlight = ExtResource("13_0gktm")
+theme_override_styles/slider = SubResource("StyleBoxTexture_0gktm")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_ketgb")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_ketgb")
 min_value = -80.0
 max_value = 20.0
+value = -24.0
 
-[node name="SFXVolumeLabel" type="Label" parent="PauseMenu"]
+[node name="SFXVolumeLabel" type="Label" parent="PauseMenu/H"]
 layout_mode = 2
 text = "SFX Volume"
+label_settings = SubResource("LabelSettings_d7xf0")
 horizontal_alignment = 1
+uppercase = true
 
-[node name="SFXVolume" type="HSlider" parent="PauseMenu"]
+[node name="SFXVolume" type="HSlider" parent="PauseMenu/H"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+theme_override_icons/grabber = ExtResource("14_ketgb")
+theme_override_icons/grabber_highlight = ExtResource("13_0gktm")
+theme_override_styles/slider = SubResource("StyleBoxTexture_eipkr")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_0gktm")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_0gktm")
 min_value = -80.0
 max_value = 20.0
 
-[node name="PlaneControls" type="CheckButton" parent="PauseMenu"]
+[node name="PlaneControls" type="CheckButton" parent="PauseMenu/H"]
 layout_mode = 2
-text = "Plane Controls"
+tooltip_text = "Enabling this 'inverts' the pitch-axis (up/down) to emulate flightsticks"
+theme_override_fonts/font = ExtResource("2_ewlsi")
+theme_override_font_sizes/font_size = 20
+text = "PLANE CONTROLS"
 
-[node name="Restart" type="Button" parent="PauseMenu"]
+[node name="Restart" type="Button" parent="PauseMenu/H"]
 layout_mode = 2
-text = "Restart Race"
+theme_override_fonts/font = ExtResource("2_ewlsi")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_0gktm")
+text = "RESTART RACE"
 
-[node name="Option" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_wx1tp")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../PauseMenu/Deco")
+libraries = {
+&"": SubResource("AnimationLibrary_d7xf0")
+}
+autoplay = "sleepin"
+
+[node name="WinSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_ketgb")
+volume_db = -5.0
 bus = &"SFX"
 
 [connection signal="pressed" from="EndRaceScreen/RetryRace" to="." method="_on_retry_race_pressed"]
 [connection signal="pressed" from="EndRaceScreen/RetryRace" to="Option" method="play"]
 [connection signal="pressed" from="EndRaceScreen/NextRace" to="." method="_on_next_race_pressed"]
 [connection signal="pressed" from="EndRaceScreen/NextRace" to="Option" method="play"]
-[connection signal="value_changed" from="PauseMenu/MusicVolume" to="." method="_on_music_volume_value_changed"]
-[connection signal="value_changed" from="PauseMenu/SFXVolume" to="." method="_on_sfx_volume_value_changed"]
-[connection signal="toggled" from="PauseMenu/PlaneControls" to="." method="_on_plane_controls_toggled"]
-[connection signal="pressed" from="PauseMenu/Restart" to="." method="_on_restart_pressed"]
-[connection signal="pressed" from="PauseMenu/Restart" to="Option" method="play"]
+[connection signal="value_changed" from="PauseMenu/H/MusicVolume" to="." method="_on_music_volume_value_changed"]
+[connection signal="value_changed" from="PauseMenu/H/SFXVolume" to="." method="_on_sfx_volume_value_changed"]
+[connection signal="toggled" from="PauseMenu/H/PlaneControls" to="." method="_on_plane_controls_toggled"]
+[connection signal="pressed" from="PauseMenu/H/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="PauseMenu/H/Restart" to="Option" method="play"]

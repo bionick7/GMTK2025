@@ -2,9 +2,15 @@ class_name PlayerCharacter
 extends VehicleBody
 
 @export var autopilot := false
-@onready var level_root = get_tree().get_first_node_in_group("LevelRoot")
 
 static var instance: PlayerCharacter = null
+
+const LAPS_TEXTURES: Array[Resource] = [
+	preload("res://Art/Sprites/lap_1.png"),
+	preload("res://Art/Sprites/lap_2.png"),
+	preload("res://Art/Sprites/lap_3.png"),
+	preload("res://Art/Sprites/ended_all_laps.png"),
+]
 
 func _enter_tree() -> void:
 	if is_instance_valid(instance):
@@ -16,7 +22,11 @@ func _process(delta: float) -> void:
 	super(delta)
 	$UI/Speedometer.value = linear_velocity.length()
 	$UI/Place.text = "%d" % (level_root.get_placement(self) + 1)
-	$UI/Rounds.text = "%d/%d" % [tracker.round + 1, level_root.rounds]
+	assert(level_root.rounds <= 3)
+	if tracker.round < level_root.rounds:
+		$UI/Rounds.texture = LAPS_TEXTURES[tracker.round]
+	else:
+		$UI/Rounds.texture = LAPS_TEXTURES[-1]
 	_is_accelerating = (
 		   Input.is_action_pressed("accelerate")
 		or PersistentUi.in_end_race_screen

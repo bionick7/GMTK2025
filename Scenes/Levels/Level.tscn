@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b8axavkyftmfn"]
+[gd_scene load_steps=11 format=3 uid="uid://b8axavkyftmfn"]
 
 [ext_resource type="Script" uid="uid://omku14d1jbh7" path="res://Scripts/GlobalRaceTracker.gd" id="1_etd3f"]
 [ext_resource type="Environment" uid="uid://bgxh8o8xm63qv" path="res://default_env.tres" id="2_4nh8f"]
@@ -7,6 +7,7 @@
 [ext_resource type="Shader" uid="uid://d0cmg5a8jkul5" path="res://Art/Shaders/Postprocessing.gdshader" id="5_vkf7a"]
 [ext_resource type="PackedScene" uid="uid://bwpjq61ni7jxx" path="res://Scenes/Pieces/HCurveR.tscn" id="6_rbpxy"]
 [ext_resource type="PackedScene" uid="uid://cbowwtbglbpln" path="res://Scenes/Pieces/VCurve.tscn" id="7_3jhef"]
+[ext_resource type="PackedScene" uid="uid://h2cgxtwfa287" path="res://Scenes/Pieces/StartGate.tscn" id="8_etd3f"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dqpvo"]
 render_priority = 0
@@ -67,3 +68,6 @@ environment = ExtResource("2_4nh8f")
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0.84769, 39.7557)
 light_indirect_energy = 0.0
 shadow_enabled = true
+
+[node name="StartGate" parent="." instance=ExtResource("8_etd3f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)

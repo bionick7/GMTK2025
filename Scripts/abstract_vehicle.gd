@@ -28,6 +28,7 @@ var stall_angle := 1.0
 @export var roll_resp := 2.0
 @export var roll_authority := 10.0
 
+@onready var level_root = get_tree().get_first_node_in_group("LevelRoot")
 @onready var tracker: CourseTracker = $CourseTracker
 @onready var splash: Splash = get_node_or_null("Splash")
 
@@ -52,7 +53,58 @@ func _ready() -> void:
 	linear_velocity = global_basis * Vector3(0, 0, 0)
 	
 	freeze = true
-	get_tree().create_timer(3).timeout.connect(start_race)
+	get_tree().create_timer(3.6).timeout.connect(start_race)
+	$NameTag.text = name
+
+func _process(delta: float) -> void:
+	_current_track_segment = tracker.current_track_piece
+	_track_progress = _current_track_segment.get_track_progress(global_position)
+	_track_orientation = _current_track_segment.get_track_orientation(_track_progress)
+	
+	local_vel = global_basis.inverse() * linear_velocity
+	
+	
+	if _is_accelerating:
+		ground_effect = clampf(1.0 - 0.5 * _get_ground_proximity(), 0, 1)
+		
+		var player_advantage = (
+			PlayerCharacter.instance.get_total_progress()
+			 - get_total_progress()
+		)
+		
+		#var spread_negative_feedback: float = 0.0
+		#if not is_instance_of(self, PlayerCharacter):
+		#	var total_npcs = len(level_root.racers) - 1
+		#	spread_negative_feedback = level_root.get_placement(self) / total_npcs - 0.5
+		
+		target_speed = (
+			  lerp(acc_speed, acc_speed + 10, ground_effect)
+			+ clampf(player_advantage * 5, -11, 11)
+		#	+ clampf(-spread_negative_feedback, -3, 3)
+		)
+	else:
+		ground_effect = 0.0
+		target_speed = normal_speed
+		
+	if is_instance_valid(splash) and not _ground_ray_result.is_empty():
+		var _track_position = _current_track_segment.sample_track_guide(_track_progress)
+		splash.global_position = _ground_ray_result["position"]
+		#splash.global_basis = _track_orientation
+	if is_instance_valid(splash):
+		splash.set_strength(ground_effect * 1.5)
+		
+	# Down raycast
+	
+	var space_state := get_world_3d().direct_space_state
+	var query := PhysicsRayQueryParameters3D.create(
+		global_position, global_position - global_basis.y * 100, 1
+	)
+	query.collide_with_bodies = true
+	_ground_ray_result = space_state.intersect_ray(query)
+	
+	_calc_ideal_inputs()
+	
+
 
 func start_race():
 	freeze = false
@@ -110,47 +162,6 @@ func _calc_ideal_inputs() -> void:
 			Color.GREEN
 		)
 		
-func _process(delta: float) -> void:
-	_current_track_segment = tracker.current_track_piece
-	_track_progress = _current_track_segment.get_track_progress(global_position)
-	_track_orientation = _current_track_segment.get_track_orientation(_track_progress)
-	
-	local_vel = global_basis.inverse() * linear_velocity
-	
-	var player_advantage = (
-		PlayerCharacter.instance.get_total_progress()
-		 - get_total_progress()
-	)
-	
-	if _is_accelerating:
-		ground_effect = clampf(1.0 - 0.5 * _get_ground_proximity(), 0, 1)
-		target_speed = (
-			  lerp(acc_speed, acc_speed + 10, ground_effect)
-			+ clampf(player_advantage * 5, -11, 11)
-		)
-	else:
-		ground_effect = 0.0
-		target_speed = normal_speed
-		
-	if is_instance_valid(splash) and not _ground_ray_result.is_empty():
-		var _track_position = _current_track_segment.sample_track_guide(_track_progress)
-		splash.global_position = _ground_ray_result["position"]
-		#splash.global_basis = _track_orientation
-	if is_instance_valid(splash):
-		splash.set_strength(ground_effect * 1.5)
-		
-	# Down raycast
-	
-	var space_state := get_world_3d().direct_space_state
-	var query := PhysicsRayQueryParameters3D.create(
-		global_position, global_position - global_basis.y * 100, 1
-	)
-	query.collide_with_bodies = true
-	_ground_ray_result = space_state.intersect_ray(query)
-	
-	_calc_ideal_inputs()
-	
-
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	local_vel = global_basis.inverse() * linear_velocity
 	var pitch := _get_pitch()

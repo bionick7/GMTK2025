@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://bgrfujmbyf0xa"]
+[gd_scene load_steps=12 format=3 uid="uid://bgrfujmbyf0xa"]
 
 [ext_resource type="Script" uid="uid://b1rjut2p31r3x" path="res://Scripts/abstract_vehicle.gd" id="1_78msl"]
 [ext_resource type="PackedScene" uid="uid://b3jouv2sdykew" path="res://Scenes/CourseTracker.tscn" id="2_3rsvp"]
 [ext_resource type="Texture2D" uid="uid://csuxjfiqkk68k" path="res://Art/Textures/basic_texture.png" id="3_78msl"]
 [ext_resource type="ArrayMesh" uid="uid://dobg0mcc1shf1" path="res://Art/Meshes/Loupe.obj" id="4_3rsvp"]
 [ext_resource type="PackedScene" uid="uid://dn7e2eiapqn2i" path="res://Scenes/Splash.tscn" id="5_07jxt"]
+[ext_resource type="FontFile" uid="uid://byas3rqp011jx" path="res://Art/font.png" id="6_3rsvp"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_vq2rq"]
 radius = 0.460207
@@ -14,6 +15,21 @@ albedo_texture = ExtResource("3_78msl")
 metallic = 1.0
 roughness = 0.14
 texture_filter = 0
+
+[sub_resource type="Animation" id="Animation_3rsvp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Loupe:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -1.5708, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_78msl"]
 resource_name = "rot"
@@ -30,21 +46,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector3(0, -1.5708, 0), Vector3(0, -1.5708, 3.14159)]
-}
-
-[sub_resource type="Animation" id="Animation_3rsvp"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Loupe:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, -1.5708, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gi5r8"]
@@ -79,7 +80,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.210864, 0)
 shape = SubResource("SphereShape3D_vq2rq")
 
 [node name="Loupe" type="MeshInstance3D" parent="."]
-transform = Transform3D(-6.46092e-09, 0, -0.147809, 0, 0.147809, 0, 0.147809, 0, -6.46092e-09, 0, 0, 0)
+transform = Transform3D(-5.35067e-07, 0, -0.147809, 0, 0.147809, 0, 0.147809, 0, -5.35067e-07, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_gi5r8")
 mesh = ExtResource("4_3rsvp")
 
@@ -92,3 +93,10 @@ libraries = {
 &"": SubResource("AnimationLibrary_gi5r8")
 }
 autoplay = "rot"
+
+[node name="NameTag" type="Label3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0.456247, 0)
+visible = false
+text = "NpcVehicle"
+font = ExtResource("6_3rsvp")
+uppercase = true

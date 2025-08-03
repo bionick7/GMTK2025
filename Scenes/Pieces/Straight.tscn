@@ -1,9 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://vftchh1rs3yr"]
+[gd_scene load_steps=8 format=4 uid="uid://vftchh1rs3yr"]
 
 [ext_resource type="ArrayMesh" uid="uid://bhg5ttvggxb1b" path="res://Art/Meshes/GMTK2025_Strtaight.res" id="1_1183n"]
 [ext_resource type="Script" uid="uid://baq1sak31pvum" path="res://Scenes/Pieces/track_piece.gd" id="1_jp2sn"]
 [ext_resource type="Material" uid="uid://bf5hlskhch1o5" path="res://Art/Materials/Stage.tres" id="2_5h1ak"]
 [ext_resource type="PackedScene" uid="uid://d1t53uf14nu4n" path="res://Scenes/Pieces/Gate.tscn" id="2_k70ud"]
+[ext_resource type="Material" uid="uid://qvkk7j6fte2j" path="res://Art/Materials/Outline.tres" id="4_6sn82"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_6sn82"]
+_surfaces = [{
+"aabb": AABB(-4.05773, -1.78426, -30.1535, 8.11547, 1.98138, 30.2017),
+"attribute_data": PackedByteArray("1fDUPvcs9z7aato+8rDxPtpq2j73LPc+1fDUPvKw8T7V8NQ+8rDxPtpq2j7sNOw+2mraPvKw8T7V8NQ+7DTsPtXw1D7sNOw+2mraPue45j7aato+7DTsPtXw1D7nuOY+1fDUPue45j7aato+4TzhPtpq2j7nuOY+1fDUPuE84T7PdM8+7DTsPtXw1D7nuOY+1fDUPuw07D7PdM8+57jmPtpq2j7sNOw+4ObfPue45j7g5t8+7DTsPtpq2j7nuOY+"),
+"format": 34359742487,
+"index_count": 36,
+"index_data": PackedByteArray("AAACAAEAAAABAAMABAAGAAUABAAFAAcACAAKAAkACAAJAAsADAAOAA0ADAANAA8AEAASABEAEAARABMAFAAWABUAFAAVABcA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("99iBwIxi5L+QUUU999iBwETbST5vOvHB99iBwETbST6QUUU999iBwIxi5L9vOvHB99iBwIxi5L9vOvHB99iBQETbST5vOvHB99iBwETbST5vOvHB99iBQIxi5L9vOvHB99iBQIxi5L9vOvHB99iBQETbST6QUUU999iBQETbST5vOvHB99iBQIxi5L+QUUU999iBQIxi5L+QUUU999iBwETbST6QUUU999iBQETbST6QUUU999iBwIxi5L+QUUU999iBwIxi5L9vOvHB99iBQIxi5L+QUUU999iBQIxi5L9vOvHB99iBwIxi5L+QUUU999iBQETbST5vOvHB99iBwETbST6QUUU999iBwETbST5vOvHB99iBQETbST6QUUU9AgAEgAGA/P8CAASAAYD8/wIABIABgPz/AgAEgAGA/P/+//7//3/+//7//v//f/7//v/+//9//v/+//7//3/+//r/AID+f/7/+v8AgP5//v/6/wCA/n/+//r/AID+f/7//3//fwCA/v//f/9/AID+//9//38AgP7//3//fwCA/v8AgAEA/v//vwCAAQD+//+/AIABAP7//78AgAEA/v//v/5//v8AAP6//n/+/wAA/r/+f/7/AAD+v/5//v8AAP6/")
+}]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jp2sn"]
 size = Vector3(8.06055, 1.82446, 29.9187)
@@ -16,6 +30,10 @@ next = NodePath(".")
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 material_override = ExtResource("2_5h1ak")
 mesh = ExtResource("1_1183n")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Gmtk2025Strtaight"]
+material_override = ExtResource("4_6sn82")
+mesh = SubResource("ArrayMesh_6sn82")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 

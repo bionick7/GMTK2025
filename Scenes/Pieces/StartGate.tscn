@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://h2cgxtwfa287"]
+
+[ext_resource type="Texture2D" uid="uid://rvdmcrelnw5u" path="res://Art/Sprites/countdown.png" id="1_ojrpo"]
+[ext_resource type="Texture2D" uid="uid://d1wb8lepbiahp" path="res://Art/Textures/checkerflag_texture.png" id="3_nmcca"]
+[ext_resource type="AudioStream" uid="uid://b58tpsmei0ij4" path="res://Audio/round_start.ogg" id="4_nmcca"]
+[ext_resource type="ArrayMesh" uid="uid://c5y8by0fcbd6w" path="res://Art/Meshes/flag.obj" id="4_up2pp"]
+
+[sub_resource type="GDScript" id="GDScript_ojrpo"]
+script/source = "extends Sprite3D
+
+func _ready() -> void:
+	var tween := get_tree().create_tween().set_trans(Tween.TRANS_ELASTIC)
+	
+	for i in range(4):
+		tween.tween_property(self, \"frame\", i, 0.0)
+		tween.tween_property(self, \"position\", Vector3( 0,-2, 0), 0.0)
+		tween.tween_property(self, \"position\", Vector3( 0, 4, 0), 1.0)
+	tween.tween_property(self, \"modulate\", Color(1.0, 1.0, 1.0, 0), 5.0)
+	
+	get_tree().create_timer(0.5).timeout.connect($Boop.play)
+"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_72u73"]
+cull_mode = 2
+albedo_texture = ExtResource("3_nmcca")
+texture_filter = 0
+
+[node name="StartGate" type="Node3D"]
+
+[node name="AnimatedSprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -10, -2, 0)
+pixel_size = 0.005
+no_depth_test = true
+texture = ExtResource("1_ojrpo")
+hframes = 4
+frame = 2
+script = SubResource("GDScript_ojrpo")
+
+[node name="Boop" type="AudioStreamPlayer" parent="AnimatedSprite3D"]
+stream = ExtResource("4_nmcca")
+volume_db = -10.0
+bus = &"SFX"
+
+[node name="Flag" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 1.235, -2)
+material_override = SubResource("StandardMaterial3D_72u73")
+mesh = ExtResource("4_up2pp")
+
+[node name="Flag2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, -8.74228e-08, 4.37114e-08, 1, 1, 4.37114e-08, 8.74228e-08, 0, 1.235, 2)
+material_override = SubResource("StandardMaterial3D_72u73")
+mesh = ExtResource("4_up2pp")

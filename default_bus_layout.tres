@@ -1,12 +1,27 @@
-[gd_resource type="AudioBusLayout" format=3 uid="uid://dip6q5ut8yni1"]
+[gd_resource type="AudioBusLayout" load_steps=3 format=3 uid="uid://dip6q5ut8yni1"]
+
+[sub_resource type="AudioEffectHardLimiter" id="AudioEffectHardLimiter_j3pel"]
+resource_name = "HardLimiter"
+pre_gain_db = 13.93
+ceiling_db = -20.74
+release = 3.0
+
+[sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_j3pel"]
+resource_name = "Compressor"
+threshold = -25.5
+ratio = 48.0
 
 [resource]
 bus/1/name = &"Music"
 bus/1/solo = false
 bus/1/mute = false
 bus/1/bypass_fx = false
-bus/1/volume_db = -8.79822
+bus/1/volume_db = -5.32994
 bus/1/send = &"Master"
+bus/1/effect/0/effect = SubResource("AudioEffectHardLimiter_j3pel")
+bus/1/effect/0/enabled = false
+bus/1/effect/1/effect = SubResource("AudioEffectCompressor_j3pel")
+bus/1/effect/1/enabled = false
 bus/2/name = &"SFX"
 bus/2/solo = false
 bus/2/mute = false

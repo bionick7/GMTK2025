@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/font.png-3aed990cdc5e1eca9a4cf5f99c8aefdf.fon
 
 [params]
 
-character_ranges=PackedStringArray("\'0\'-\'9\'", "\'A\'-\'Z\'", "\'!\'-\'/\'", "\':\'-\'?\'", "\'[\'-\'`\'", "\'{\'-\'~\'")
+character_ranges=PackedStringArray("\'0\'-\'9\'", "\'A\'-\'Z\'", "\'!\'-\'/\'", "\':\'-\'?\'", "\'[\'-\'`\'", "\'{\'-\'~\'", "32")
 kerning_pairs=PackedStringArray()
 columns=10
 rows=7

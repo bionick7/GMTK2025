@@ -1,6 +1,6 @@
 shader_type sky;
 
-uniform sampler2D horizon;
+uniform sampler2D horizon: filter_nearest;
 
 void sky() {
 	float long = atan(EYEDIR.x, EYEDIR.z) / PI * 2.0;

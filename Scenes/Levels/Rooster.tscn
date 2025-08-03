@@ -18,39 +18,23 @@ func _ready() -> void:
 [node name="NPCRooster" type="Node3D"]
 script = SubResource("GDScript_ppqj0")
 
-[node name="NPC 1" parent="." instance=ExtResource("1_nb7yr")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.750236, 2.01639, 27.3576)
+[node name="S***q**er" parent="." instance=ExtResource("1_nb7yr")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.78359, 2.01639, 29.659)
 
-[node name="Loupe" parent="." instance=ExtResource("2_ppqj0")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.753403, 2.61823, 28.7639)
-
-[node name="NPC 2" parent="." instance=ExtResource("1_nb7yr")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.750236, 2.01639, 32.1674)
-
-[node name="NPC 3" parent="." instance=ExtResource("1_nb7yr")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.750236, 3.44219, 27.3576)
+[node name="xxXeggsXxx" parent="." instance=ExtResource("1_nb7yr")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.78359, 3.44219, 29.659)
 target_altitude = 3.675
 
-[node name="NPC 4" parent="." instance=ExtResource("1_nb7yr")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.750236, 3.44219, 32.1674)
+[node name="Roetldoedl" parent="." instance=ExtResource("1_nb7yr")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.817383, 2.01639, 29.7326)
+
+[node name="Nya>;3" parent="." instance=ExtResource("1_nb7yr")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.817383, 3.44219, 29.7326)
 target_altitude = 1.07
 
-[node name="NPC 5" parent="." instance=ExtResource("1_nb7yr")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.750236, 3.44219, 30.4611)
+[node name="Loupe" parent="." instance=ExtResource("2_ppqj0")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.8927, 3.66804, 29.3671)
 
-[node name="NPC 6" parent="." instance=ExtResource("1_nb7yr")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.750236, 3.44219, 28.9422)
-lift_coeff = 22.79
-
-[node name="NPC 7" parent="." instance=ExtResource("1_nb7yr")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.750236, 2.20079, 30.4611)
-turn_speed = 7.84
-stall_angle = 1.5708
-
-[node name="NPC 8" parent="." instance=ExtResource("1_nb7yr")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.750236, 2.20079, 28.9422)
-acc_speed = 11.0
-
-[node name="PlayerVehicle" parent="." instance=ExtResource("2_lxql5")]
+[node name="You" parent="." instance=ExtResource("2_lxql5")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 2.07452, 2.78988, 29.7323)
 autopilot = false
