@@ -53,7 +53,8 @@ func _ready() -> void:
 	linear_velocity = global_basis * Vector3(0, 0, 0)
 	
 	freeze = true
-	get_tree().create_timer(3.6).timeout.connect(start_race)
+	level_root.get_node("StartGate/Countdown").go.connect(start_race)
+	# get_tree().create_timer(3.6).timeout.connect(start_race)
 	$NameTag.text = name
 
 func _process(delta: float) -> void:

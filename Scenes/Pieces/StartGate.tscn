@@ -8,6 +8,8 @@
 [sub_resource type="GDScript" id="GDScript_ojrpo"]
 script/source = "extends Sprite3D
 
+signal go
+
 func _ready() -> void:
 	var tween := get_tree().create_tween().set_trans(Tween.TRANS_ELASTIC)
 	
@@ -17,7 +19,11 @@ func _ready() -> void:
 		tween.tween_property(self, \"position\", Vector3( 0, 4, 0), 1.0)
 	tween.tween_property(self, \"modulate\", Color(1.0, 1.0, 1.0, 0), 5.0)
 	
-	get_tree().create_timer(0.5).timeout.connect($Boop.play)
+	var tween2 := get_tree().create_tween()
+	tween2.tween_interval(0.5)
+	tween2.tween_callback($Boop.play)
+	tween2.tween_interval(3)
+	tween2.tween_callback(go.emit)
 "
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_72u73"]
@@ -27,7 +33,7 @@ texture_filter = 0
 
 [node name="StartGate" type="Node3D"]
 
-[node name="AnimatedSprite3D" type="Sprite3D" parent="."]
+[node name="Countdown" type="Sprite3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -10, -2, 0)
 pixel_size = 0.005
 no_depth_test = true
@@ -36,7 +42,7 @@ hframes = 4
 frame = 2
 script = SubResource("GDScript_ojrpo")
 
-[node name="Boop" type="AudioStreamPlayer" parent="AnimatedSprite3D"]
+[node name="Boop" type="AudioStreamPlayer" parent="Countdown"]
 stream = ExtResource("4_nmcca")
 volume_db = -10.0
 bus = &"SFX"

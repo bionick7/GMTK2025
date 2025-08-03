@@ -182,4 +182,3 @@ mesh = SubResource("ArrayMesh_0lmpf")
 
 [node name="TitlescreenCam" type="Camera3D" parent="."]
 transform = Transform3D(0.99961, -0.0106852, -0.0257962, 0, 0.92388, -0.382683, 0.0279216, 0.382534, 0.923519, 25.7663, 0.457, 62.6442)
-current = true
