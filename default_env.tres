@@ -1,0 +1,26 @@
+[gd_resource type="Environment" load_steps=5 format=3 uid="uid://bgxh8o8xm63qv"]
+
+[ext_resource type="Shader" uid="uid://dele2f3gguknc" path="res://Art/Shaders/SkyMaterial.gdshader" id="1_ujk5d"]
+[ext_resource type="Texture2D" uid="uid://by788x4rpe55d" path="res://Art/background.png" id="2_gk03p"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ujk5d"]
+shader = ExtResource("1_ujk5d")
+shader_parameter/horizon = ExtResource("2_gk03p")
+
+[sub_resource type="Sky" id="Sky_ytf4i"]
+sky_material = SubResource("ShaderMaterial_ujk5d")
+
+[resource]
+background_mode = 2
+background_color = Color(0.379213, 0.336241, 0.37581, 1)
+sky = SubResource("Sky_ytf4i")
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.0
+ambient_light_energy = 0.12
+tonemap_mode = 2
+tonemap_white = 2.02
+fog_mode = 1
+fog_light_color = Color(0.31435, 0.342729, 0.387339, 1)
+fog_density = 0.8105
+adjustment_enabled = true

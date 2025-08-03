@@ -1,30 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://b8axavkyftmfn"]
+[gd_scene load_steps=10 format=3 uid="uid://b8axavkyftmfn"]
 
-[ext_resource type="Shader" uid="uid://dele2f3gguknc" path="res://Art/Shaders/SkyMaterial.gdshader" id="1_4nh8f"]
 [ext_resource type="Script" uid="uid://omku14d1jbh7" path="res://Scripts/GlobalRaceTracker.gd" id="1_etd3f"]
-[ext_resource type="Texture2D" uid="uid://by788x4rpe55d" path="res://Art/background.png" id="2_etd3f"]
-[ext_resource type="PackedScene" uid="uid://njneyce2ah4y" path="res://Scenes/Vehicle/PlayerVehicle.tscn" id="3_d3u4r"]
-[ext_resource type="PackedScene" uid="uid://c257ubfcajoyj" path="res://Scenes/NPCVehicle/NPCVehicle.tscn" id="4_y1810"]
+[ext_resource type="Environment" uid="uid://bgxh8o8xm63qv" path="res://default_env.tres" id="2_4nh8f"]
+[ext_resource type="PackedScene" uid="uid://stw1smmnyv77" path="res://Scenes/Levels/Knot.tscn" id="2_etd3f"]
+[ext_resource type="PackedScene" uid="uid://gtmb16oiip16" path="res://Scenes/Levels/Rooster.tscn" id="5_etd3f"]
 [ext_resource type="Shader" uid="uid://d0cmg5a8jkul5" path="res://Art/Shaders/Postprocessing.gdshader" id="5_vkf7a"]
 [ext_resource type="PackedScene" uid="uid://bwpjq61ni7jxx" path="res://Scenes/Pieces/HCurveR.tscn" id="6_rbpxy"]
 [ext_resource type="PackedScene" uid="uid://cbowwtbglbpln" path="res://Scenes/Pieces/VCurve.tscn" id="7_3jhef"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_a7u0l"]
-shader = ExtResource("1_4nh8f")
-shader_parameter/horizon = ExtResource("2_etd3f")
-
-[sub_resource type="Sky" id="Sky_ytf4i"]
-sky_material = SubResource("ShaderMaterial_a7u0l")
-
-[sub_resource type="Environment" id="Environment_7e5cw"]
-background_mode = 2
-sky = SubResource("Sky_ytf4i")
-ambient_light_source = 3
-tonemap_mode = 2
-tonemap_exposure = 0.63
-fog_mode = 1
-fog_light_color = Color(0.31435, 0.342729, 0.387339, 1)
-fog_density = 0.8105
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dqpvo"]
 render_priority = 0
@@ -38,17 +20,12 @@ size = Vector2(2, 2)
 
 [node name="BaseLevel" type="Node3D" groups=["LevelRoot"]]
 script = ExtResource("1_etd3f")
+next_level = ExtResource("2_etd3f")
+rounds = 3
+place_to_win = null
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_7e5cw")
-
-[node name="PlayerVehicle" parent="." instance=ExtResource("3_d3u4r")]
-transform = Transform3D(-1, 0, -1.78814e-07, 0, 1, 0, 1.78814e-07, 0, -1, -1.10185, 1.20145, 31.7237)
-linear_damp = 0.001
-angular_damp = 0.001
-
-[node name="NpcVehicle" parent="." instance=ExtResource("4_y1810")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.750236, 2.01639, 29.1599)
+[node name="NPCRooster" parent="." instance=ExtResource("5_etd3f")]
+npc_speed_delta = -2.0
 
 [node name="Postprocessing" type="MeshInstance3D" parent="."]
 sorting_use_aabb_center = false
@@ -82,3 +59,11 @@ next = NodePath("../VCurve")
 [node name="VCurve" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("7_3jhef")]
 transform = Transform3D(4.37114e-08, 8.74228e-08, -1, -1, 4.37114e-08, -4.37114e-08, 4.37114e-08, 1, 8.74228e-08, 30, 30, 0)
 next = NodePath("../HCurve")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("2_4nh8f")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0.84769, 39.7557)
+light_indirect_energy = 0.0
+shadow_enabled = true

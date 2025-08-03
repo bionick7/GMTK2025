@@ -1,0 +1,94 @@
+[gd_scene load_steps=11 format=3 uid="uid://bgrfujmbyf0xa"]
+
+[ext_resource type="Script" uid="uid://b1rjut2p31r3x" path="res://Scripts/abstract_vehicle.gd" id="1_78msl"]
+[ext_resource type="PackedScene" uid="uid://b3jouv2sdykew" path="res://Scenes/CourseTracker.tscn" id="2_3rsvp"]
+[ext_resource type="Texture2D" uid="uid://csuxjfiqkk68k" path="res://Art/Textures/basic_texture.png" id="3_78msl"]
+[ext_resource type="ArrayMesh" uid="uid://dobg0mcc1shf1" path="res://Art/Meshes/Loupe.obj" id="4_3rsvp"]
+[ext_resource type="PackedScene" uid="uid://dn7e2eiapqn2i" path="res://Scenes/Splash.tscn" id="5_07jxt"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_vq2rq"]
+radius = 0.460207
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gi5r8"]
+albedo_texture = ExtResource("3_78msl")
+metallic = 1.0
+roughness = 0.14
+texture_filter = 0
+
+[sub_resource type="Animation" id="Animation_78msl"]
+resource_name = "rot"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Loupe:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -1.5708, 0), Vector3(0, -1.5708, 3.14159)]
+}
+
+[sub_resource type="Animation" id="Animation_3rsvp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Loupe:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -1.5708, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gi5r8"]
+_data = {
+&"RESET": SubResource("Animation_3rsvp"),
+&"rot": SubResource("Animation_78msl")
+}
+
+[node name="NpcVehicle" type="RigidBody3D" groups=["Racer"]]
+collision_layer = 4
+collision_mask = 5
+mass = 100.0
+gravity_scale = 0.0
+center_of_mass_mode = 1
+inertia = Vector3(100, 100, 100)
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_78msl")
+target_altitude = 1.0
+normal_speed = 3.0
+acc_speed = 12.0
+stall_angle = 0.349066
+lift_coeff = 30.0
+side_coeff = 30.0
+roll_resp = 10.0
+roll_authority = 3.0
+
+[node name="CourseTracker" parent="." instance=ExtResource("2_3rsvp")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.210864, 0)
+shape = SubResource("SphereShape3D_vq2rq")
+
+[node name="Loupe" type="MeshInstance3D" parent="."]
+transform = Transform3D(-6.46092e-09, 0, -0.147809, 0, 0.147809, 0, 0.147809, 0, -6.46092e-09, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_gi5r8")
+mesh = ExtResource("4_3rsvp")
+
+[node name="Splash" parent="." instance=ExtResource("5_07jxt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.392853, 0, 0)
+is_player = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_gi5r8")
+}
+autoplay = "rot"

@@ -18,9 +18,10 @@ mesh = ExtResource("1_pict1")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.139534, -2.21955, -0.00460243)
 
 [node name="StartTf" type="Marker3D" parent="."]
+transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="EndTf" type="Marker3D" parent="."]
-transform = Transform3D(0, -1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 30.115)
+transform = Transform3D(-8.74228e-08, 1, 0, -1, -8.74228e-08, 0, 0, 0, 1, 0, 0, 30.115)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 

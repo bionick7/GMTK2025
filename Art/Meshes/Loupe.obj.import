@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dobg0mcc1shf1"
+path="res://.godot/imported/Loupe.obj-9fca712f9241bf5a353147209980e0cd.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Loupe.obj-9fca712f9241bf5a353147209980e0cd.mesh"]
+
+source_file="res://Art/Meshes/Loupe.obj"
+dest_files=["res://.godot/imported/Loupe.obj-9fca712f9241bf5a353147209980e0cd.mesh", "res://.godot/imported/Loupe.obj-9fca712f9241bf5a353147209980e0cd.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

@@ -11,6 +11,7 @@ radius = 0.460207
 
 [node name="NpcVehicle" type="RigidBody3D" groups=["Racer"]]
 collision_layer = 4
+collision_mask = 5
 mass = 100.0
 gravity_scale = 0.0
 center_of_mass_mode = 1
@@ -18,11 +19,12 @@ inertia = Vector3(100, 100, 100)
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_srqon")
+target_altitude = 1.0
 normal_speed = 3.0
-acc_speed = 10.0
+acc_speed = 12.0
 stall_angle = 0.349066
 lift_coeff = 30.0
-side_coeff = 10.0
+side_coeff = 30.0
 roll_resp = 10.0
 roll_authority = 3.0
 

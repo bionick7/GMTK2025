@@ -9,9 +9,10 @@
 albedo_texture = ExtResource("2_qcrce")
 texture_filter = 0
 
-[node name="HCurveL" type="Node3D" groups=["TrackPiece"]]
+[node name="HCurveL" type="Node3D" node_paths=PackedStringArray("next") groups=["TrackPiece"]]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_i7n56")
+next = NodePath(".")
 path_curvature_weight = 21.585
 
 [node name="Gmtk2025HCurve" type="MeshInstance3D" parent="."]
@@ -22,7 +23,8 @@ mesh = ExtResource("3_jh5uo")
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
 [node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="StaticBody3D"]
-transform = Transform3D(0.999864, 0.0164926, -1.44183e-09, -7.20915e-10, -4.37173e-08, -1, -0.0164926, 0.999864, -4.36995e-08, 0.0309124, -0.540675, 0.0454025)
+transform = Transform3D(0.999864, 0.0164926, -1.44183e-09, -7.20915e-10, -4.37173e-08, -1, -0.0164926, 0.999864, -4.36995e-08, 0.0309124, -0.784416, 0.0454025)
+depth = 1.67
 polygon = PackedVector2Array(0.0889454, 26.3255, 8.42765, 26.0402, 16.7435, 22.8976, 23.5123, 16.564, 26.5582, 6.12079, 26.7139, 0.692517, 33.5402, 0.652758, 32.5735, 9.94901, 29.5309, 19.8823, 21.2084, 28.5628, 11.812, 32.8582, 3.04209, 33.4847, 0.178434, 33.6636)
 
 [node name="StartTf" type="Marker3D" parent="."]

@@ -1,9 +1,9 @@
 extends Node
 
-const PLACE_TO_WIN := 3
-
 @onready var racers = get_tree().get_nodes_in_group("Racer")
 @export var next_level: PackedScene = null
+@export var rounds: int = 1
+@export var place_to_win: int = 3
 
 var is_race_finished := false
 
@@ -42,12 +42,12 @@ func _ready() -> void:
 """
 
 func _ready() -> void:
-	PersistentUi.restart_race.connect(restart_race)
+	PersistentUi.next_race.connect(next_race)
 
 func _process(delta: float) -> void:
 	for racer in racers:
-		progresses[racer] = racer.tracker.ticks + racer._track_progress
-		if racer.tracker.round > 3:
+		progresses[racer] = racer.get_total_progress()
+		if racer.tracker.round + 1 > rounds:
 			finsih_race()
 	
 	if Input.is_action_just_pressed("debug_skiprace"):
@@ -61,8 +61,8 @@ func _process(delta: float) -> void:
 func get_placement(racer: VehicleBody) -> int:
 	return racers.find(racer)
 	
-func restart_race() -> void:
-	if is_instance_valid(next_level):
+func next_race(progress: bool) -> void:
+	if is_instance_valid(next_level) and progress:
 		get_tree().change_scene_to_packed(next_level)
 	else:
 		get_tree().reload_current_scene()
@@ -71,5 +71,9 @@ func finsih_race() -> void:
 	if is_race_finished:
 		return
 	is_race_finished = true
-	var player_index := racers.find_custom(func(x): return is_instance_of(x, PlayerCharacter))
-	PersistentUi.race_finished(racers.duplicate(), player_index)
+	var player_index := racers.find_custom(
+		func(x): return is_instance_of(x, PlayerCharacter)
+	)
+	PersistentUi.race_finished(
+		racers.duplicate(), player_index, player_index <= place_to_win
+	)

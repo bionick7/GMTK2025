@@ -1,11 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://ds3w8spsfh60r"]
+[gd_scene load_steps=3 format=3 uid="uid://ds3w8spsfh60r"]
 
-[ext_resource type="AudioStream" uid="uid://ccvv4huj2cetx" path="res://Audio/whatthefuckamidoing.ogg" id="1_5psdy"]
+[ext_resource type="AudioStream" uid="uid://b6u36wnkwviqb" path="res://Audio/songwithoutbreak.ogg" id="1_w8kvg"]
+[ext_resource type="AudioStream" uid="uid://bjomndfa4h8rb" path="res://Audio/breakwithoutsong.ogg" id="2_sd74s"]
 
 [node name="MusicPlayer" type="Node"]
+process_mode = 3
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("1_5psdy")
+[node name="Song" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_w8kvg")
+volume_db = -5.0
+autoplay = true
+bus = &"Music"
+playback_type = 1
+
+[node name="Break" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_sd74s")
 volume_db = -5.0
 autoplay = true
 bus = &"Music"

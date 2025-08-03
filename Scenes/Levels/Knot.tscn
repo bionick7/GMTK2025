@@ -1,0 +1,151 @@
+[gd_scene load_steps=12 format=3 uid="uid://stw1smmnyv77"]
+
+[ext_resource type="Script" uid="uid://omku14d1jbh7" path="res://Scripts/GlobalRaceTracker.gd" id="1_8j577"]
+[ext_resource type="Environment" uid="uid://bgxh8o8xm63qv" path="res://default_env.tres" id="2_bqt4g"]
+[ext_resource type="Shader" uid="uid://d0cmg5a8jkul5" path="res://Art/Shaders/Postprocessing.gdshader" id="6_e6oki"]
+[ext_resource type="PackedScene" uid="uid://bwpjq61ni7jxx" path="res://Scenes/Pieces/HCurveR.tscn" id="6_eangy"]
+[ext_resource type="PackedScene" uid="uid://cbowwtbglbpln" path="res://Scenes/Pieces/VCurve.tscn" id="7_cvkxr"]
+[ext_resource type="PackedScene" uid="uid://bs0u0bq7ltmlf" path="res://Scenes/Pieces/VCurveInverse.tscn" id="8_8j577"]
+[ext_resource type="PackedScene" uid="uid://gtmb16oiip16" path="res://Scenes/Levels/Rooster.tscn" id="9_eangy"]
+[ext_resource type="PackedScene" uid="uid://vftchh1rs3yr" path="res://Scenes/Pieces/Straight.tscn" id="9_h2ux0"]
+[ext_resource type="PackedScene" uid="uid://ypbx2yjmrcon" path="res://Scenes/Pieces/TwistR.tscn" id="10_eangy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dqpvo"]
+render_priority = 0
+shader = ExtResource("6_e6oki")
+shader_parameter/postarization = Vector3i(10, 20, 255)
+shader_parameter/pixel_size = 4
+
+[sub_resource type="QuadMesh" id="QuadMesh_o0omn"]
+custom_aabb = AABB(-1e+06, -1e+06, -1e+06, 2e+06, 2e+06, 2e+06)
+size = Vector2(2, 2)
+
+[node name="BaseLevel" type="Node3D" groups=["LevelRoot"]]
+script = ExtResource("1_8j577")
+rounds = 2
+place_to_win = null
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("2_bqt4g")
+
+[node name="Postprocessing" type="MeshInstance3D" parent="."]
+sorting_use_aabb_center = false
+material_override = SubResource("ShaderMaterial_dqpvo")
+cast_shadow = 0
+ignore_occlusion_culling = true
+mesh = SubResource("QuadMesh_o0omn")
+
+[node name="Track" type="Node3D" parent="."]
+
+[node name="HCurve2" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("6_eangy")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+beginning = true
+next = NodePath("../VCurve2")
+
+[node name="VCurve2" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("7_cvkxr")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -30, 30, 2.62268e-06)
+next = NodePath("../VCurveInverse")
+
+[node name="VCurveInverse" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("8_8j577")]
+transform = Transform3D(-5.96046e-08, -3.70861e-15, 1, 1, 4.37114e-08, 5.96046e-08, -4.37114e-08, 1, 2.10554e-15, -29.6958, 29.5864, -30.0211)
+next = NodePath("../HCurve3")
+
+[node name="HCurve3" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("6_eangy")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 60, -61.413)
+next = NodePath("../HCurve5")
+
+[node name="HCurve5" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("6_eangy")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0, 60, -61.413)
+beginning = true
+next = NodePath("../VCurveInverse2")
+
+[node name="VCurveInverse2" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("8_8j577")]
+transform = Transform3D(1.47027e-07, 1.13514e-14, -1, -8.74228e-08, 1, -4.9986e-16, 1, 8.74228e-08, 1.47027e-07, 30.3042, 59.5864, -60.0211)
+next = NodePath("../Straight2")
+
+[node name="Straight2" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("9_h2ux0")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 30, 30, -30)
+next = NodePath("../Straight3")
+
+[node name="Straight3" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("9_h2ux0")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 30, 0, -30)
+next = NodePath("../Straight4")
+
+[node name="Straight4" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("9_h2ux0")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 30, -30, -30)
+next = NodePath("../Straight5")
+
+[node name="Straight5" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("9_h2ux0")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 30, -60, -30)
+next = NodePath("../VCurve4")
+
+[node name="VCurve4" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("7_cvkxr")]
+transform = Transform3D(0, 0, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, 0, 30, -90, 0)
+next = NodePath("../Straight8")
+
+[node name="Straight8" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("9_h2ux0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, -120, 0)
+next = NodePath("../VCurve")
+
+[node name="VCurve" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("7_cvkxr")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 30, -90, 30)
+next = NodePath("../TwistR3")
+
+[node name="TwistR3" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("10_eangy")]
+transform = Transform3D(-1, -1.33118e-07, -2.79886e-15, -8.57915e-16, -4.37114e-08, 1, -1.33118e-07, 1, 4.37114e-08, 30, -90, 60)
+next = NodePath("../Straight9")
+
+[node name="Straight9" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("9_h2ux0")]
+transform = Transform3D(-2.95439e-08, -0.675886, -0.737006, -3.22155e-08, -0.737006, 0.675886, -1, 4.37114e-08, 3.82138e-15, 31.0802, -57.6575, 60)
+next = NodePath("../Straight10")
+
+[node name="Straight10" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("9_h2ux0")]
+transform = Transform3D(-2.95439e-08, -0.675886, -0.737006, -3.22155e-08, -0.737006, 0.675886, -1, 4.37114e-08, 3.82138e-15, 21.0411, -48.6548, 60)
+next = NodePath("../TwistR2")
+
+[node name="TwistR2" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("10_eangy")]
+transform = Transform3D(-8.9407e-08, 1, 4.37114e-08, -8.57914e-16, -4.37114e-08, 1, 1, 8.9407e-08, 4.44089e-15, 0, -30, 60)
+next = NodePath("../Straight12")
+
+[node name="Straight12" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("9_h2ux0")]
+transform = Transform3D(-1, 3.82137e-15, 8.74228e-08, 8.74228e-08, 4.37114e-08, 1, 0, 1, -4.37114e-08, 5.24537e-06, 0, 60)
+next = NodePath("../VCurveInverse4")
+
+[node name="VCurveInverse4" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("8_8j577")]
+transform = Transform3D(-1.47027e-07, -8.9407e-08, 1, 1, 4.37114e-08, 1.47027e-07, -4.37114e-08, 1, 8.9407e-08, 0.304153, 29.5864, 59.9789)
+next = NodePath("../VCurveInverse3")
+
+[node name="VCurveInverse3" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("8_8j577")]
+transform = Transform3D(-1.47027e-07, -8.9407e-08, 1, -8.74228e-08, 1, 8.9407e-08, -1, -8.74228e-08, -1.47027e-07, 0.304153, 59.5864, 29.9789)
+next = NodePath("../VCurve3")
+
+[node name="VCurve3" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("7_cvkxr")]
+transform = Transform3D(-1.19209e-07, 8.74228e-08, 1, -1, -4.37114e-08, -1.19209e-07, 4.37114e-08, -1, 8.74228e-08, 0, 30, -30)
+next = NodePath("../HCurve7")
+
+[node name="HCurve7" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("6_eangy")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 30, 0, -30)
+next = NodePath("../HCurve6")
+
+[node name="HCurve6" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("6_eangy")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 30, 0, -30)
+next = NodePath("../Straight7")
+
+[node name="Straight7" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("9_h2ux0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, -30)
+next = NodePath("../HCurve")
+
+[node name="HCurve" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("6_eangy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0)
+next = NodePath("../Straight")
+
+[node name="Straight" parent="Track" node_paths=PackedStringArray("next") instance=ExtResource("9_h2ux0")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 30, 0, 30)
+next = NodePath("../HCurve2")
+
+[node name="NPCRooster" parent="." instance=ExtResource("9_eangy")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 0.84769, 39.7557)
+light_indirect_energy = 0.0
+shadow_enabled = true

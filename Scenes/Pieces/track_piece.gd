@@ -15,6 +15,9 @@ var _debug_mesh: ImmediateMesh
 @onready var _end_tf: Node3D = get_node_or_null("EndTf")
 
 func _ready() -> void:
+	if not is_instance_valid(next):
+		var next_index = (get_index() + 1) % get_parent().get_child_count()
+		next = get_parent().get_child(next_index)
 	if not has_node("DebugLine"):
 		var line := MeshInstance3D.new()
 		line.top_level = true

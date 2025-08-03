@@ -10,6 +10,8 @@ func set_strength(x: float):
 	$Splash.visible = x > 0.1
 	$Splash.modulate = Color(1.0, 1.0, 1.0, x)
 	
+	return
+	
 	if is_player:
 		if x > 0.1:
 			Input.start_joy_vibration(0, x, x, 0)

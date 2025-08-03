@@ -1,11 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://b04pmn6c73vhu"]
+[gd_scene load_steps=9 format=3 uid="uid://b04pmn6c73vhu"]
 
 [ext_resource type="Script" uid="uid://diqg7ari6squl" path="res://Scenes/persistent_ui.gd" id="1_70enn"]
+[ext_resource type="FontFile" uid="uid://byas3rqp011jx" path="res://Art/font.png" id="2_ewlsi"]
+[ext_resource type="AudioStream" uid="uid://dpgy2di1g2445" path="res://Audio/clicking_on_option.ogg" id="3_wx1tp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ewlsi"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_njoh7"]
+font = ExtResource("2_ewlsi")
 font_size = 48
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wx1tp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2xouq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q6nx7"]
+
 [node name="PersistentUi" type="CanvasLayer"]
+layer = 5
 script = ExtResource("1_70enn")
 
 [node name="EndRaceScreen" type="Control" parent="."]
@@ -29,35 +41,43 @@ theme_override_constants/separation = 7
 
 [node name="Place1" type="PanelContainer" parent="EndRaceScreen/Ranking"]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ewlsi")
 
 [node name="Label" type="Label" parent="EndRaceScreen/Ranking/Place1"]
 layout_mode = 2
-text = "1 : Kuddelmuddel"
+text = "AAA"
 label_settings = SubResource("LabelSettings_njoh7")
+uppercase = true
 
 [node name="Place2" type="PanelContainer" parent="EndRaceScreen/Ranking"]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_wx1tp")
 
 [node name="Label" type="Label" parent="EndRaceScreen/Ranking/Place2"]
 layout_mode = 2
-text = "2: Rumpelstielzien"
+text = "AAA"
 label_settings = SubResource("LabelSettings_njoh7")
+uppercase = true
 
 [node name="Place3" type="PanelContainer" parent="EndRaceScreen/Ranking"]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_2xouq")
 
 [node name="Label" type="Label" parent="EndRaceScreen/Ranking/Place3"]
 layout_mode = 2
 text = "3: Fagglewuggle"
 label_settings = SubResource("LabelSettings_njoh7")
+uppercase = true
 
 [node name="PlayerPlace" type="PanelContainer" parent="EndRaceScreen/Ranking"]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_q6nx7")
 
 [node name="Label" type="Label" parent="EndRaceScreen/Ranking/PlayerPlace"]
 layout_mode = 2
 text = "756: You"
 label_settings = SubResource("LabelSettings_njoh7")
+uppercase = true
 
 [node name="RetryRace" type="Button" parent="EndRaceScreen"]
 layout_mode = 1
@@ -72,4 +92,74 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 48
 text = "RETRY"
 
+[node name="NextRace" type="Button" parent="EndRaceScreen"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -251.0
+offset_top = -75.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 48
+text = "PROGRESS"
+
+[node name="PauseMenu" type="VBoxContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -156.5
+offset_top = -45.0
+offset_right = 156.5
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MusicVolumeLabel" type="Label" parent="PauseMenu"]
+layout_mode = 2
+text = "Music Volume"
+horizontal_alignment = 1
+
+[node name="MusicVolume" type="HSlider" parent="PauseMenu"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+min_value = -80.0
+max_value = 20.0
+
+[node name="SFXVolumeLabel" type="Label" parent="PauseMenu"]
+layout_mode = 2
+text = "SFX Volume"
+horizontal_alignment = 1
+
+[node name="SFXVolume" type="HSlider" parent="PauseMenu"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+min_value = -80.0
+max_value = 20.0
+
+[node name="PlaneControls" type="CheckButton" parent="PauseMenu"]
+layout_mode = 2
+text = "Plane Controls"
+
+[node name="Restart" type="Button" parent="PauseMenu"]
+layout_mode = 2
+text = "Restart Race"
+
+[node name="Option" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_wx1tp")
+bus = &"SFX"
+
 [connection signal="pressed" from="EndRaceScreen/RetryRace" to="." method="_on_retry_race_pressed"]
+[connection signal="pressed" from="EndRaceScreen/RetryRace" to="Option" method="play"]
+[connection signal="pressed" from="EndRaceScreen/NextRace" to="." method="_on_next_race_pressed"]
+[connection signal="pressed" from="EndRaceScreen/NextRace" to="Option" method="play"]
+[connection signal="value_changed" from="PauseMenu/MusicVolume" to="." method="_on_music_volume_value_changed"]
+[connection signal="value_changed" from="PauseMenu/SFXVolume" to="." method="_on_sfx_volume_value_changed"]
+[connection signal="toggled" from="PauseMenu/PlaneControls" to="." method="_on_plane_controls_toggled"]
+[connection signal="pressed" from="PauseMenu/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="PauseMenu/Restart" to="Option" method="play"]

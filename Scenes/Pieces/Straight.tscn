@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://vftchh1rs3yr"]
+
+[ext_resource type="ArrayMesh" uid="uid://bhg5ttvggxb1b" path="res://Art/Meshes/GMTK2025_Strtaight.res" id="1_1183n"]
+[ext_resource type="Script" uid="uid://baq1sak31pvum" path="res://Scenes/Pieces/track_piece.gd" id="1_jp2sn"]
+[ext_resource type="Material" uid="uid://bf5hlskhch1o5" path="res://Art/Materials/Stage.tres" id="2_5h1ak"]
+[ext_resource type="PackedScene" uid="uid://d1t53uf14nu4n" path="res://Scenes/Pieces/Gate.tscn" id="2_k70ud"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jp2sn"]
+size = Vector3(8.06055, 1.82446, 29.9187)
+
+[node name="Straight" type="Node3D" node_paths=PackedStringArray("next") groups=["TrackPiece"]]
+script = ExtResource("1_jp2sn")
+next = NodePath(".")
+
+[node name="Gmtk2025Strtaight" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+material_override = ExtResource("2_5h1ak")
+mesh = ExtResource("1_1183n")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.799194, 14.9406)
+shape = SubResource("BoxShape3D_jp2sn")
+
+[node name="StartTf" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.230053, 0)
+
+[node name="EndTf" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35076, 30)
+
+[node name="InGate" parent="." instance=ExtResource("2_k70ud")]
+transform = Transform3D(1, 0, -4.37114e-08, 0, 1, 0, 4.37114e-08, 0, 1, 0, 0, 0)

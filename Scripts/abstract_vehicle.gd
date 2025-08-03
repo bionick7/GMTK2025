@@ -1,15 +1,14 @@
 class_name VehicleBody
 extends RigidBody3D
 
+const DEBUG_DRAWING := false
+
 enum ControlScheme {
 	PitchYaw,
 	PitchRoll,
 }
 
 var control_scheme: ControlScheme = ControlScheme.PitchYaw
-var invert_pitch: bool = false
-
-const DEBUG_DRAWING := true
 
 @export var lookahead_value: float = 6.0
 @export var target_altitude: float = 2.0
@@ -50,13 +49,14 @@ var calc_yaw := 0.0
 func _ready() -> void:
 	if not is_instance_valid(tracker):
 		push_error("tracker must be set for each vehicle")
-	linear_velocity = global_basis * Vector3(20, 0, 0)
+	linear_velocity = global_basis * Vector3(0, 0, 0)
 	
 	freeze = true
 	get_tree().create_timer(3).timeout.connect(start_race)
 
 func start_race():
 	freeze = false
+	linear_velocity = global_basis * Vector3(20, 0, 0)
 
 func _get_pitch() -> float:
 	return calc_pitch
@@ -84,6 +84,7 @@ func _calc_ideal_inputs() -> void:
 	var track_position_plus: Vector3 = _current_track_segment.sample_track_guide(_track_progress + 1e-3)
 	var track_direction: Vector3 = (track_position_plus - track_position).normalized()
 	var target_pt = track_position + track_direction * lookahead_value + _track_orientation.y * target_altitude
+	#target_pt += _track_orientation.x * randf_range(-2, 2)
 	var goal_body_fixed = global_transform.inverse() * target_pt
 	var goal_direction := goal_body_fixed.normalized()
 
@@ -114,12 +115,19 @@ func _process(delta: float) -> void:
 	_track_progress = _current_track_segment.get_track_progress(global_position)
 	_track_orientation = _current_track_segment.get_track_orientation(_track_progress)
 	
-	
 	local_vel = global_basis.inverse() * linear_velocity
+	
+	var player_advantage = (
+		PlayerCharacter.instance.get_total_progress()
+		 - get_total_progress()
+	)
 	
 	if _is_accelerating:
 		ground_effect = clampf(1.0 - 0.5 * _get_ground_proximity(), 0, 1)
-		target_speed = lerp(acc_speed, acc_speed + 10, ground_effect)
+		target_speed = (
+			  lerp(acc_speed, acc_speed + 10, ground_effect)
+			+ clampf(player_advantage * 5, -11, 11)
+		)
 	else:
 		ground_effect = 0.0
 		target_speed = normal_speed
@@ -150,25 +158,29 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	
 	var local_angvel := global_basis.inverse() * state.angular_velocity
 	#local_vel = global_basis.inverse() * Vector3(10, 0, 0)
-	var local_vel_norm := local_vel.normalized()
-	var aoa := -asin(local_vel_norm.y)
-	if local_vel_norm.x < 0: aoa = PI - aoa
-	if aoa > PI: aoa -= TAU
-	var sideslip := atan2(local_vel_norm.z, local_vel_norm.x)
+	var aoa := 0.0
+	var sideslip := 0.0
+	if local_vel.length_squared() > 0.01:
+		var local_vel_norm := local_vel.normalized()
+		aoa = -asin(local_vel_norm.y)
+		if local_vel_norm.x < 0: aoa = PI - aoa
+		if aoa > PI: aoa -= TAU
+		sideslip = atan2(local_vel_norm.z, local_vel_norm.x)
 	
 	# virtual dynamic pressure * surface area
 	var qS = turn_responsiveness * clampf(local_vel.length(), 0.5, 1)
 	
-	var Cl = lift_coeff * aoa + ground_effect * 5.0
+	var Cl = lift_coeff * aoa
 	var C_thrust = (target_speed - local_vel.length()) * thrust_responsiveness
 	var Cx = -side_coeff * sideslip
 	var aero_force = Vector3(C_thrust, Cl, Cx) * qS
 	
 	var stall = clampf(pow(aoa / stall_angle, 10), 0.0, 1.0)
 	pitch = lerp(pitch, 0.0, stall)
-	if invert_pitch:
-		pitch *= -1
-	var Cm = -aoa * pitch_authority + (pitch * pitch_authority - local_angvel.z * 5) * pitch_resp
+	var Cm = (
+		-aoa * pitch_authority
+		 + (pitch * pitch_authority - local_angvel.z * 5) * pitch_resp
+	)
 	var aero_torque := Vector3.ZERO
 	if control_scheme == ControlScheme.PitchRoll:
 		var C_roll = (roll * roll_authority - local_angvel.x) * roll_resp
@@ -194,3 +206,5 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		angular_velocity = Vector3.ZERO
 		_schedule_reset = false
 		
+func get_total_progress() -> float:
+	return tracker.ticks + _track_progress

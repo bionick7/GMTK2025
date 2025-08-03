@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://dn7e2eiapqn2i"]
+[gd_scene load_steps=6 format=3 uid="uid://dn7e2eiapqn2i"]
 
 [ext_resource type="Texture2D" uid="uid://bgahrkpywe70m" path="res://Art/Sprites/splash.png" id="1_l4lnp"]
 [ext_resource type="Script" uid="uid://draidak2gcfhc" path="res://Scenes/splash.gd" id="1_y83ar"]
-[ext_resource type="AudioStream" uid="uid://brk72qntidce5" path="res://Audio/splash.ogg" id="3_q2006"]
 
 [sub_resource type="Animation" id="Animation_y83ar"]
 length = 0.001
@@ -57,9 +56,3 @@ libraries = {
 &"": SubResource("AnimationLibrary_q2006")
 }
 autoplay = "splashing"
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("3_q2006")
-volume_db = -12.308
-bus = &"SFX"
-playback_type = 2
